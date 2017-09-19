@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-  	<div v-html="readabilitylist.content"></div>
+  	<router-link  :to="{name:'article'}">进入文章</router-link>
   </div>
 </template>
 
@@ -12,36 +12,18 @@ export default {
   name: 'home',
   data () {
     return {
-      readabilitylist:{}
+      
     }
   },
   methods : {
-    //获取访问页面的内容
-    async get_article(params){
-        try{
-            let res = await api.get_article(params);
-            console.log('-----获取访问页面的内容-----');
-            console.log(res);
-            if(res.content == false){
-              window.location.href = params.url;
-            }else{
-              this.readabilitylist = res;
-            }
-            
-            this.$nextTick(() => {
-              
-            });
-        }catch (err) {
-          
-        }  
-    }
+    
   },
   mounted(){
-  		this.get_article({'url':'https://www.ffmpeg.org/download.html#get-sources'});
+  		
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import '../../static/css/common_color.scss';
 </style>

@@ -8,6 +8,7 @@
 const toastime = 3000;
 const timeout = 10000;
 const filename = '/todaycrop';
+const botkey = 'b5e54604d962464fb5544c73e659f494';
 const accuracy = false;//是否开启精准定位 不开启定位失败就默认北京天安门
 
 let urlWebHttp = '';
@@ -40,5 +41,6 @@ export default{
 	filename,
 	accuracy,
 	assetsPublicPath,
-	plant
+	plant,
+	botkey
 }
