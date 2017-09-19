@@ -24,6 +24,9 @@ export default {
     //拦截路由
     router.beforeEach((to, from, next) => {
       next();
+      //初始化滚动事件监听
+      document.body.scrollTop = 0;
+      $(document).unbind('scroll');
       //运行滚动条滚动
       util.allscroll();
     });
