@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import appConfigs from 'src/configs'
+import api from 'src/model/api.js'
 
 let getevent=()=>{
 	var Event = new Vue();
@@ -9,26 +10,6 @@ const vueEvent = getevent();
 
 const utils = {
 	vueEvent:vueEvent,
-	vueRequest(quest){
-		Vue.http({
-			method : quest.method || 'GET',
-			url : quest.url + '&clientId=vistor_weixin',
-			timeout:quest.timeout,
-			headers : {
-				'Content-Type':'application/json;charset=utf-8',
-			},
-			body : quest.body || '',
-			params: quest.params || '',
-		}).then(res => {
-			if(res.body.code == 1){
-				quest.cb(res.body.result)
-			}else{
-				quest.err(res)
-			}
-		}).catch(err => {
-			quest.err(err)
-		})
-	},
 	//打电话
 	realcall(e){
         window.location.href = "tel:"+ e.name;
@@ -134,6 +115,13 @@ const utils = {
             position: 'bottom',
             duration: appConfigs.toastime
         });
+    },
+    //菊花loading
+    showloading(){
+    	Vue.$indicator.open();
+    },
+    closeloading(){
+    	Vue.$indicator.close();
     }
 }
 export default utils

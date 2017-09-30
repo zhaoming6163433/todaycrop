@@ -17,12 +17,22 @@ export default {
   name: 'app',
   data(){
       return{
-          showLoading: false
+          showLoading: false,
+          titlename: {
+            'myInfo':'我的',
+            'mytalk':'问问',
+            'seekclass':'个人分类',
+            'homechild':'今日口袋',
+            'login':'登录',
+            'register':'注册'
+          }
       }
   },
   created(){
     //拦截路由
     router.beforeEach((to, from, next) => {
+      //首页拦截跳转tab样式
+      this.hometab(to);
       next();
       //初始化滚动事件监听
       document.body.scrollTop = 0;
@@ -37,9 +47,43 @@ export default {
     util.vueEvent.$on("disloading", ()=>{
         this.showLoading = false;
     });
+    this.firstitle();
   },
   methods : {
-
+    hometab(to) {
+      if (this.titlename[to.name]) {
+        document.title = this.titlename[to.name];
+      }
+      switch (to.name) {
+        case 'seekclass':
+          util.vueEvent.$emit("homebar", 'seekclass');
+          break;
+        case 'homechild':
+          util.vueEvent.$emit("homebar", 'homechild');
+          break;
+        case 'mytalk':
+          util.vueEvent.$emit("homebar", 'mytalk');
+          break;
+        case 'myInfo':
+          util.vueEvent.$emit("homebar", 'myInfo');
+          break;
+      }
+    },
+    //第一次进入页面也判断标题
+    firstitle(){
+      let url = window.location.href;
+      let name = '';
+      if(url.indexOf('?')!=-1){
+        name = url.substring(url.indexOf('#')+2,url.indexOf('?'));
+      }else{
+        name = url.substring(url.indexOf('#')+2);
+      }
+      let _arr = name.split('/');
+      name = _arr[_arr.length-1];
+      if(name){
+        document.title = this.titlename[name]
+      }
+    }
   },
   components: {
       loading
@@ -114,5 +158,14 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
   height: 0.5rem;
   background-color: #f5f5f5;
   position: relative;
+}
+.closebtn{
+  top:1.4rem;
+  right:1rem;
+  width:1.6rem;
+  height:1.6rem;
+  position:absolute;
+  background:url('../static/img/close.png') no-repeat;
+  background-size: 100%;
 }
 </style>

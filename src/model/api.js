@@ -1,87 +1,55 @@
 import appConfigs from 'src/configs'
-import util from 'src/util/util.js'
-
-//首页分类图标
-const get_article = appConfigs.urlWebHttp + '/api/article/getArticle?';
-//图灵机器人
-const get_tuling_bot = 'http://www.tuling123.com/openapi/api?key='+appConfigs.botkey;
+import vueRequest from 'src/config/vueRequest'
 
 /**
- * 创建临时数据
- * reqtype 1:vueGet 2:vuePost 3:ajaxPost 4:ajaxGet
+ * 获取访问页面的内容
  */
-let setpromise = (params,apiurl,reqtype) => {
-  switch (reqtype) {
-    case 1:
-      return new Promise((resolve, reject) => {
-        util.vueRequest({
-              method : 'GET',
-              url : apiurl,
-              params : params,
-              timeout:appConfigs.timeout,
-              cb : function(res){
-                resolve(res)
-              },
-              err : function(res){
-                console.log(res);
-                util.vueEvent.$emit("disloading");
-                reject(res);
-              }
-            });
-      });
-      break;
-    case 2:
-      return new Promise((resolve, reject) => {
-        util.vueRequest({
-              method : 'POST',
-              url : apiurl,
-              body : params,
-              timeout:appConfigs.timeout,
-              cb : function(res){
-                resolve(res)
-              },
-              err : function(res){
-                console.log(res);
-                util.vueEvent.$emit("disloading");
-                reject(res);
-              }
-            });
-      });
-      break;
-    case 3:
-      
-    break;
-    case 4:
-      return new Promise((resolve, reject) => {
-        $.ajax({
-            type: 'GET',
-            url: apiurl,
-            data: params,
-            timeout:appConfigs.timeout,
-            success(res){
-              resolve(res)
-            },
-            error(){
-              console.log(res);
-              util.vueEvent.$emit("disloading");
-              reject(res);
-            }
-        });
-      });
-    break;
-  }
-}
 
-let get_article_fn =(params)=>{
-	return setpromise(params,get_article,1);
-}
-let get_tuling_bot_fn =(params)=>{
-  return setpromise(params,get_tuling_bot,4);
-}
+export const api_get_article = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/getArticle?', params, 'GET');
 
-export default{
-	//获取访问页面的内容
-	get_article : get_article_fn,
-  //图灵机器人
-  get_tuling_bot : get_tuling_bot_fn
-}
+/**
+ * 图灵机器人
+ */
+
+export const api_get_tuling_bot = (params) => vueRequest('http://www.tuling123.com/openapi/api?key='+appConfigs.botkey, params, 'GET','ajax');
+
+
+/**
+ * 用户是否登录
+ */
+
+export const api_user_islogin = (params) => vueRequest(appConfigs.urlWebHttp + '/api/login/user_islogin?', params, 'POST');
+
+
+/**
+ * 用户登录
+ */
+
+export const api_user_login = (params) => vueRequest(appConfigs.urlWebHttp + '/api/login/user_login?', params, 'POST');
+
+
+/**
+ * 用户注册
+ */
+
+export const api_user_register = (params) => vueRequest(appConfigs.urlWebHttp + '/api/login/user_register?', params, 'POST');
+
+
+/**
+ * 用户退出
+ */
+
+export const api_user_logout = (params) => vueRequest(appConfigs.urlWebHttp + '/api/login/user_logout?', params, 'POST');
+
+
+/**
+ * 新增网址
+ */
+
+export const api_add_website = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/add_website?', params, 'POST');
+
+/**
+ * 新增类别
+ */
+
+export const api_add_seekname = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/add_seekname?', params, 'POST');
