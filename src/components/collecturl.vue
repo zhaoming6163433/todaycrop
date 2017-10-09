@@ -8,7 +8,7 @@
         <mt-field label="" :attr="{ maxlength: 1000 }" placeholder="请输入网址" type="url" v-model="$store.state.collecturl.website"></mt-field>
       </div>
       <div><mt-button type="danger" class="savebtn" @click="saveUrl()">保存</mt-button></div>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -18,59 +18,61 @@ import appConfigs from 'src/configs'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
-  name: 'collecturl',
-  props : [],
-  data () {
-    return {
+    name: 'collecturl',
+    props : [],
+    data () {
+        return {
+
+        }
+    },
+    components: {
+
+    },
+    computed: {
+        ...mapState([
+            "collecturl",
+            "userinfo"
+        ])
+    },
+    methods : {
+        ...mapMutations({
+            SAVE_USER_INFO: 'SAVE_USER_INFO',//用户信息
+            SHOW_COLLECT_URL: 'SHOW_COLLECT_URL'//展示新增地址
+        }),
+        //添加网址
+        async get_add_website(params){
+            util.showloading();
+            try{
+                let res = await api_add_website(params);
+                util.closeloading();
+                util.toastinfo(res.message);
+                this.SHOW_COLLECT_URL({ 'flag': false ,'website':''});
+                console.log('-----保存成功-----');
+                console.log(res);
+            }catch (err) {
+                util.toastinfo(err.message||'保存失败');
+            }
+        },
+        //返回
+        closepage(){
+        this.SHOW_COLLECT_URL({ 'flag': false ,'website':''});
+        },
+        //保存
+        saveUrl(){
+            if(this.userinfo._id){
+                let params = {'url':this.collecturl.website,'type':'','typeid':''};
+                this.get_add_website(params);
+            }else{
+                util.toastinfo('请先登录');
+            }
+        }
+    },
+    created(){
+
+    },
+    mounted(){
 
     }
-  },
-  components: {
-    
-  },
-  created(){
-    
-  },
-  computed: {
-    ...mapState([
-        "collecturl"
-    ])
-  },
-  methods : {
-    ...mapMutations({
-      SHOW_COLLECT_URL: 'SHOW_COLLECT_URL'//展示新增地址
-    }),
-    //添加网址
-    async get_add_website(params){
-        util.showloading();
-        try{
-            let res = await api_add_website(params);
-            util.closeloading();
-            util.toastinfo(res.message);
-            this.SHOW_COLLECT_URL({ 'flag': false ,'website':''});
-            console.log('-----保存成功-----');
-            console.log(res);
-        }catch (err) {
-            util.toastinfo(err.message||'保存失败');
-        }  
-    },
-    //返回
-    closepage(){
-      this.SHOW_COLLECT_URL({ 'flag': false ,'website':''});
-    },
-    //保存
-    saveUrl(){
-      let userInfo = util.handleCookieGet('userInfo');
-      if(userInfo){
-        let params = {'url':this.collecturl.website,'type':''};
-        this.get_add_website(params);
-      }else{
-        util.toastinfo('请先登录');
-      }  
-    }
-  },
-  mounted(){
-  }
 }
 
 </script>

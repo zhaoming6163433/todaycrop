@@ -2,15 +2,16 @@
   <div class="login">
     <div><a class="closebtn" @click="closepage"></a></div>
     <h2>登录你的口袋，精彩永不丢失</h2>
-    <div class="username inputdiv"><input id="username" type="text" maxlength="20" placeholder="用户名" v-model="username" /></div>
-    <div class="password inputdiv"><input id="password" type="text"  maxlength="20" placeholder="密码" v-model="password" onfocus="this.type='password'"/></div>
+    <div class="username inputdiv"><input id="username" type="text" maxlength="20" placeholder="用户名" v-model="username" autocomplete="new-password" /></div>
+    <div class="password inputdiv"><input id="password" type="password"  maxlength="20" placeholder="密码" v-model="password" autocomplete="new-password" /></div>
     <div><mt-button type="danger" class="gotopocket" @click="gotopocket()">进入口袋</mt-button></div>
     <div class="register"><a @click="goregister">注册</a>|<a>忘记密码？</a></div>
-  </div> 
+  </div>
 </template>
 
 <script>
-import {api_user_login} from 'src/model/api.js'
+import { api_user_login } from 'src/model/api.js'
+import { mapMutations } from 'vuex'
 import util from 'src/util/util.js'
 
 export default {
@@ -23,12 +24,15 @@ export default {
     }
   },
   components: {
-    
+
   },
   created(){
-    
+
   },
   methods : {
+    ...mapMutations({
+      SAVE_USER_INFO: 'SAVE_USER_INFO'//用户信息
+    }),
     //登录
     async get_user_login(params){
         util.showloading();
@@ -36,14 +40,14 @@ export default {
             let res = await api_user_login(params);
             console.log('-----登录-----');
             console.log(res);
-            util.handleCookieSet('userInfo', res.userInfo);
+            this.SAVE_USER_INFO(res.userInfo);
             util.closeloading();
             this.$router.go(-1);
         }catch (err) {
           if(err.message){
             util.toastinfo(err.message);
           }
-        }  
+        }
     },
     closepage(){
       this.$router.go(-1);
@@ -59,7 +63,7 @@ export default {
     }
   },
   mounted(){
-    
+
   }
 }
 

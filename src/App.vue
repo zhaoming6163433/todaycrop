@@ -2,7 +2,9 @@
   <div id="app">
     <loading v-show="showLoading"></loading>
     <transition name="router-fade" mode="out-in">
-      <router-view ></router-view>
+        <keep-alive>
+            <router-view ></router-view>
+        </keep-alive>
     </transition>
   </div>
 </template>
@@ -21,10 +23,11 @@ export default {
           titlename: {
             'myInfo':'我的',
             'mytalk':'问问',
-            'seekclass':'个人分类',
+            'myseek':'个人分类',
             'homechild':'今日口袋',
             'login':'登录',
-            'register':'注册'
+            'register':'注册',
+            'updateseek':'编辑类别'
           }
       }
   },
@@ -55,8 +58,8 @@ export default {
         document.title = this.titlename[to.name];
       }
       switch (to.name) {
-        case 'seekclass':
-          util.vueEvent.$emit("homebar", 'seekclass');
+        case 'myseek':
+          util.vueEvent.$emit("homebar", 'myseek');
           break;
         case 'homechild':
           util.vueEvent.$emit("homebar", 'homechild');
@@ -78,7 +81,8 @@ export default {
       }else{
         name = url.substring(url.indexOf('#')+2);
       }
-      let _arr = name.split('/');
+
+      let _arr = name&&name.split('/');
       name = _arr[_arr.length-1];
       if(name){
         document.title = this.titlename[name]
@@ -110,6 +114,9 @@ export default {
   bottom: 0;
   right: 0;
 }
+img{
+    width:100%;
+}
 body{
 	overflow-x:hidden;
 	min-width: 320px;
@@ -117,7 +124,7 @@ body{
 body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}
 
 /*去掉百度地图logo*/
-.mapdetail .anchorBL{ 
+.mapdetail .anchorBL{
   display: none;
 }
 /*顶部fixed标题栏高度*/
@@ -127,12 +134,21 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 .paddingtop2{
   padding-top:88px;
 }
+/*距离底部*/
+.marginbt{
+  margin-bottom: 4.5rem;
+}
 /*左右边距离*/
 .marginleft{
   margin-left:12px;
 }
 .marginright{
   margin-right:12px;
+}
+/*加载中文字 */
+.mint-loadmore-text{
+    font-size:14px;
+    color:#999;
 }
 /*文字超出省略号 第二行超出省略*/
 .ellipisis{

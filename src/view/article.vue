@@ -44,8 +44,8 @@ export default {
 
             });
         }catch (err) {
-          
-        }  
+
+        }
     },
     //图灵机器人
     async get_tuling_bot(params){
@@ -53,18 +53,18 @@ export default {
             let res = await api_get_tuling_bot(params);
             console.log('-----获取机器人返回的内容-----');
             console.log(res);
-            
+
             this.$nextTick(() => {
-              
+
             });
         }catch (err) {
-          
-        }  
+
+        }
     }
   },
   mounted(){
-  		this.get_article({'url':'http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html'});
-      this.get_tuling_bot({'info':'haha','userid':'zhaoming'});
+  	this.get_article({'url':'http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html'});
+    this.get_tuling_bot({'info':'haha','userid':'zhaoming'});
   }
 }
 </script>

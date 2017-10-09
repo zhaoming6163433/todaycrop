@@ -5,10 +5,10 @@
         <a class="closebtn" @click="closepage"></a>
       </div>
       <div>
-        <mt-field label="" :attr="{ maxlength: 5 }" placeholder="请输入类别，最多五个字符" type="url" v-model="$store.state.createseek.seekname"></mt-field>
+        <mt-field label="" :attr="{ maxlength: 4 }" placeholder="请输入类别，最多四个字符" type="url" v-model="$store.state.createseek.seekname"></mt-field>
       </div>
       <div><mt-button type="danger" class="savebtn" @click="saveUrl()">保存</mt-button></div>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -26,14 +26,15 @@ export default {
     }
   },
   components: {
-    
+
   },
   created(){
-    
+
   },
   computed: {
     ...mapState([
-        "createseek"
+        "createseek",
+        "userinfo"
     ])
   },
   methods : {
@@ -46,13 +47,12 @@ export default {
         try{
             let res = await api_add_seekname(params);
             util.closeloading();
-            util.toastinfo(res.message);
             this.SHOW_SEEK_NAME({ 'flag': false ,'seekname':''});
             console.log('-----保存成功-----');
             console.log(res);
         }catch (err) {
             util.toastinfo(err.message||'保存失败');
-        }  
+        }
     },
     //返回
     closepage(){
@@ -60,8 +60,7 @@ export default {
     },
     //保存
     saveUrl(){
-      let userInfo = util.handleCookieGet('userInfo');
-      if(userInfo){
+      if(this.userinfo._id){
         if(this.createseek.seekname.trim() == ''){
           util.toastinfo('类别不能为空');
         }else{
@@ -70,7 +69,7 @@ export default {
         }
       }else{
         util.toastinfo('请先登录');
-      }  
+      }
     }
   },
   mounted(){

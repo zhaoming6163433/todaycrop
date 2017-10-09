@@ -8,6 +8,7 @@ import router from './router'
 import VueResource from 'vue-resource'
 import vueutil from './util/vueutil.js'
 import store from './store'
+
 import 'mint-ui/lib/style.css'
 
 

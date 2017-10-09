@@ -5,7 +5,7 @@
           <div class="barimg home img1"></div>
           首页
         </mt-tab-item>
-        <mt-tab-item id="seekclasschild">
+        <mt-tab-item id="myseek">
           <div class="barimg seekclass img2"></div>
           个人分类
         </mt-tab-item>
@@ -37,8 +37,8 @@ export default {
       selected: function (val, oldVal) {
           // 这里就可以通过 val 的值变更来确定
           switch (val) {
-            case 'seekclass':
-              this.$router.push({'name':'seekclass'})
+            case 'myseek':
+              this.$router.push({'name':'myseek'})
               break;
             case 'homechild':
               this.$router.push({'name':'homechild'});
@@ -61,7 +61,7 @@ export default {
   methods : {
   },
   mounted(){
-    
+
   }
 }
 

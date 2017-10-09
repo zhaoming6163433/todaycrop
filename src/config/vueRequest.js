@@ -2,7 +2,8 @@ import Vue from 'vue';
 import appConfigs from 'src/configs'
 import util from 'src/util/util.js'
 
-export default async(apiurl = '', params = {}, type = '', method = '') => {
+export default async(apiurl = '', params = {}, type = 'GET', method = '') => {
+    type = type.toUpperCase();
 	if(method == 'ajax'){
 		return new Promise((resolve, reject) => {
 				$.ajax({
@@ -12,8 +13,13 @@ export default async(apiurl = '', params = {}, type = '', method = '') => {
 						data: params,
 						timeout:appConfigs.timeout,
 						success(res){
-							if(res.code == 200||res.code == 100000){
-								resolve(res)
+							if(res.code == 200){
+                                if(res.code == 1000){
+                                    util.closeloading();
+                                    reject(res);
+                                }else{
+                                    resolve(res)
+                                }
 							}else{
 								util.closeloading();
 								reject(res);
@@ -30,7 +36,7 @@ export default async(apiurl = '', params = {}, type = '', method = '') => {
 		return new Promise((resolve, reject) => {
 			Vue.http({
 					method : type || 'GET',
-					url : apiurl + '&clientId=vistor_weixin',
+					url : apiurl + '&clientId=""',
 					timeout:appConfigs.timeout,
 					headers : {
 						'Content-Type':'application/json;charset=utf-8'
@@ -38,7 +44,7 @@ export default async(apiurl = '', params = {}, type = '', method = '') => {
 					withCredentials: true,
 					crossDomain: true,
 					body : type == 'POST' ? params: '',
-					params: type == 'GET' ? params: '',
+					params: type == 'GET' ? params: ''
 			}).then(res => {
 					if(res.body.code == 200){
 						resolve(res.body)
@@ -49,8 +55,8 @@ export default async(apiurl = '', params = {}, type = '', method = '') => {
 			}).catch(err => {
 					util.closeloading();
 					console.log(err);
-					reject(err)
+					reject(err.body)
 			})
 		});
-	}	
+	}
 }

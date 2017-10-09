@@ -7,6 +7,7 @@ import vueRequest from 'src/config/vueRequest'
 
 export const api_get_article = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/getArticle?', params, 'GET');
 
+
 /**
  * 图灵机器人
  */
@@ -48,8 +49,30 @@ export const api_user_logout = (params) => vueRequest(appConfigs.urlWebHttp + '/
 
 export const api_add_website = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/add_website?', params, 'POST');
 
+
 /**
  * 新增类别
  */
 
 export const api_add_seekname = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/add_seekname?', params, 'POST');
+
+
+/**
+ * 当前用户分类
+ */
+
+export const api_get_seekinfo = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/getWebUrlInfo?', params, 'GET');
+
+
+/**
+ * 删除当前用户文章
+*/
+
+export const api_delWebUrlInfo = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/delWebUrlInfo?', params, 'POST');
+
+
+/**
+ * 查询当前类别
+ */
+
+export const api_get_seek = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/get_seek?', params, 'POST');

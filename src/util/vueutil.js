@@ -29,11 +29,11 @@ export default{
 	Vue.prototype.loaderrimg = function(e){
 		var type = e.currentTarget.attributes.type&&e.currentTarget.attributes.type.value;
 		if(type == 'big'){
-			e.target.src = '../../static/img/no_img_middle.png';
-		}else if(type == 'middle'){
-			e.target.src = '../../static/img/no_img_middle.png';
+			e.target.src = '../../static/img/picturedefault.png';
+		}else if(type == 'logogray'){
+			e.target.src = '../../static/img/graylogo.png';
 		}else {
-			e.target.src = '../../static/img/no_img_middle.png';
+			e.target.src = '../../static/img/picturedefault.png';
 		}
 	}
 	//加载图片处理

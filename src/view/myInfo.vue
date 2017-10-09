@@ -2,7 +2,7 @@
   <div class="myInfo">
       <section class="mybaseInfo">
         <div><img src="../../static/img/user_def_head.png"/></div>
-        <div>{{userInfo.username}}</div>
+        <div>{{userinfo.username}}</div>
       </section>
       <div class="div_line"></div>
       <section>
@@ -19,123 +19,133 @@
       </section>
       <section>
         <div>
-          <mt-button type="danger" class="savebtn" @click="loginout()">{{logintext}}</mt-button></div>
+          <mt-button :type="buttontype" class="savebtn" @click="loginout()">{{logintext}}</mt-button></div>
       </section>
-  </div> 
+  </div>
 </template>
 
 <script>
 import { api_user_islogin, api_user_logout} from 'src/model/api.js'
 import util from 'src/util/util.js'
 import appConfigs from 'src/configs'
-import {mapMutations} from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
-  name: 'myInfo',
-  props : [],
-  data () {
-    return {
-      logintext:'',
-      loginstatu:'',//登录状态 0已退出 1已登录
-      userInfo:{}
-    }
-  },
-  components: {
-    
-  },
-  created(){
-    
-  },
-  
-  activated(){
-    
-  },
-  methods : {
-    ...mapMutations({
-      SHOW_COLLECT_URL: 'SHOW_COLLECT_URL',//展示新增地址
-      SHOW_SEEK_NAME: 'SHOW_SEEK_NAME'//展示新增分类
-    }),
-    //是否登录
-    async get_user_islogin(params){
-        try{
-            let res = await api_user_islogin(params);
-            this.userInfo = res.result;
-            util.handleCookieSet('userInfo', res.result);
-            console.log('-----获取是否登录-----');
-            console.log(res);
-            this.logintext = '退出';
-            this.loginstatu = 0;
-        }catch (err) {
-          this.logintext = '登录';
-          this.loginstatu = 1;
-        }  
+    name: 'myInfo',
+    props : [],
+    data () {
+        return {
+            buttontype:'danger',
+            logintext:'',
+            loginstatu:''//登录状态 0已退出 1已登录
+        }
     },
-    //退出登录
-    async get_user_logout(){
-        util.showloading();
-        try{
-            let res = await api_user_logout();
-            this.userInfo = res.result;
-            util.closeloading();
-            util.handleCookieSet('userInfo', '');
-            this.logintext = '登录';
-            console.log('-----退出-----');
-            console.log(res);
-            this.loginstatu = 1;
-        }catch (err) {
-          this.logintext = '退出';
-          this.loginstatu = 0;
-        }  
-    },
-    //添加网址
-    collecturl(){
-      let userInfo = util.handleCookieGet('userInfo');
-      if(userInfo){
-        this.SHOW_COLLECT_URL({ 'flag': true ,'website':''});
-      }else{
-        util.toastinfo('请先登录');
-      } 
-    },
-    //创建分类
-    createseek(){
-      let userInfo = util.handleCookieGet('userInfo');
-      if(userInfo){
-        this.SHOW_SEEK_NAME({ 'flag': true ,'seekname':''});
-      }else{
-        util.toastinfo('请先登录');
-      } 
-    },
-    //登录或退出
-    loginout(){
-      switch (this.loginstatu) {
-        case 0:
-          this.$messagebox.confirm('确定要退出登录？','').then(() => {
-            this.get_user_logout();
-          },() => {
+    components: {
 
-          });
-          break;
-        case 1:
-          this.$router.push({name:'login'});
-          break;
-        default:
-          // statements_def
-          break;
-      }
+    },
+    created(){
+
+    },
+    computed:{
+        ...mapState([
+            'userinfo'
+        ])
+    },
+    activated(){
+        util.vueEvent.$emit("homebar",'myInfo');
+
+        if(this.userinfo._id){
+            this.loginchange();
+        }else{
+            this.get_user_islogin();
+        }
+    },
+    methods : {
+        ...mapMutations({
+            SAVE_USER_INFO: 'SAVE_USER_INFO',//用户信息
+            SHOW_COLLECT_URL: 'SHOW_COLLECT_URL',//展示新增地址
+            SHOW_SEEK_NAME: 'SHOW_SEEK_NAME'//展示新增分类
+        }),
+        //是否登录
+        async get_user_islogin(params){
+            try{
+                let res = await api_user_islogin(params);
+                this.SAVE_USER_INFO(res.result);
+                console.log('-----获取是否登录-----');
+                console.log(res);
+                this.loginchange();
+            }catch (err) {
+                console.log(err)
+                this.SAVE_USER_INFO({});
+                this.logoutchange();
+            }
+        },
+        //退出登录
+        async get_user_logout(){
+            util.showloading();
+            try{
+                let res = await api_user_logout();
+                this.SAVE_USER_INFO(res.result);
+                util.closeloading();
+                this.logoutchange();
+                console.log('-----退出-----');
+                console.log(res);
+            }catch (err) {
+                this.loginchange();
+                this.SAVE_USER_INFO({});
+            }
+        },
+        //添加网址
+        collecturl(){
+            //点击时vuex就肯定有值了就不需要掉接口判断了
+            if(this.userinfo._id){
+                this.SHOW_COLLECT_URL({ 'flag': true ,'website':''});
+            }else{
+                util.toastinfo('请先登录');
+            }
+        },
+            //创建分类
+        createseek(){
+            if(this.userinfo._id){
+                this.SHOW_SEEK_NAME({ 'flag': true ,'seekname':''});
+            }else{
+                util.toastinfo('请先登录');
+            }
+        },
+        //登录或退出
+        loginout(){
+            switch (this.loginstatu) {
+                case 0:
+                    this.$messagebox.confirm('确定要退出登录？','').then(() => {
+                        this.get_user_logout();
+                    },() => {
+
+                    });
+                    break;
+                case 1:
+                    this.$router.push({name:'login'});
+                    break;
+                default:
+                // statements_def
+                break;
+            }
+        },
+        //登录改变状态
+        loginchange(){
+            this.logintext = '退出';
+            this.buttontype = 'default';
+            this.loginstatu = 0;
+        },
+        //退出改变状态
+        logoutchange(){
+            this.logintext = '登录';
+            this.buttontype = 'danger';
+            this.loginstatu = 1;
+        }
+    },
+    mounted(){
+
     }
-  },
-  mounted(){
-      util.vueEvent.$emit("homebar",'myInfo');
-      let userInfo = util.handleCookieGet('userInfo');
-      console.log(userInfo)
-      if(userInfo){
-        this.logintext = '退出';
-        this.loginstatu = 0;
-        this.userInfo = userInfo;
-      }else{
-        this.get_user_islogin();
-      }
-  }
 }
 
 </script>
@@ -188,5 +198,5 @@ export default {
       margin-top: 2rem;
       margin-left: 5%;
     }
-  } 
+  }
 </style>

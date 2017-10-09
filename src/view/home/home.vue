@@ -6,7 +6,7 @@
     <navbar></navbar>
     <collecturl></collecturl>
     <createseek></createseek>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -27,13 +27,13 @@ export default {
     createseek
   },
   created(){
-    
+
   },
   methods : {
-      
+
   },
   mounted(){
-      
+
   }
 }
 
@@ -41,5 +41,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-    
+    .home{
+        height:100%;
+    }
 </style>
