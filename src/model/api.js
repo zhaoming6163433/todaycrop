@@ -58,6 +58,13 @@ export const api_add_seekname = (params) => vueRequest(appConfigs.urlWebHttp + '
 
 
 /**
+ * 删除类别
+ */
+
+export const api_del_seekname = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/del_seek?', params, 'POST');
+
+
+/**
  * 当前用户分类
  */
 
@@ -76,3 +83,10 @@ export const api_delWebUrlInfo = (params) => vueRequest(appConfigs.urlWebHttp + 
  */
 
 export const api_get_seek = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/get_seek?', params, 'POST');
+
+
+/**
+ * 修改类别顺序
+ */
+
+export const api_update_seeksort = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/update_seeksort?', params, 'POST');

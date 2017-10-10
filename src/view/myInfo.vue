@@ -52,8 +52,6 @@ export default {
         ])
     },
     activated(){
-        util.vueEvent.$emit("homebar",'myInfo');
-
         if(this.userinfo._id){
             this.loginchange();
         }else{
@@ -144,7 +142,8 @@ export default {
         }
     },
     mounted(){
-
+        //刷新时就不跳转了只改变按钮样式
+        util.vueEvent.$emit("homebar",'myInfo');
     }
 }
 

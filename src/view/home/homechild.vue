@@ -1,7 +1,7 @@
 <template>
   <div class="homechild">
     1122
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -15,19 +15,21 @@ export default {
     }
   },
   components: {
-    
+
   },
   created(){
-    
+
   },
   methods : {
-      
+
   },
   mounted(){
-      util.showloading();
-      setTimeout(()=>{
-        util.closeloading();
-      },1000);
+        util.showloading();
+        setTimeout(()=>{
+            util.closeloading();
+        },1000);
+        //刷新时就不跳转了只改变按钮样式
+        util.vueEvent.$emit("homebar",'homechild');
   }
 }
 
@@ -35,5 +37,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-    
+
 </style>

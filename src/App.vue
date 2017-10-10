@@ -34,7 +34,7 @@ export default {
   created(){
     //拦截路由
     router.beforeEach((to, from, next) => {
-      //首页拦截跳转tab样式
+      //首页拦截展示标题和页面样式切换
       this.hometab(to);
       next();
       //初始化滚动事件监听

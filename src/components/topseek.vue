@@ -49,7 +49,7 @@ export default {
             try{
                 let res = await api_get_seek();
                 this.typelist = this.typelist.concat(res.result);
-                console.log(res)
+
                 this.$nextTick(() => {
                     let swiper = new Swiper('.swiper-container', {
                         pagination: '.swiper-pagination',
@@ -57,7 +57,16 @@ export default {
                         paginationClickable: false,
                         spaceBetween: 0
                     });
-                    $('.topseek .swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)')
+                    $('.topseek .swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)');
+                    //查询后如果有类别只切换样式和存类别 查询在topseek
+                    let obj = this.$route.query.querytype&&JSON.parse(this.$route.query.querytype);
+                    if(obj){
+                        this.typelist.forEach((item, index) => {
+                            if(item.type == obj.type){
+                                this.active = 'tab-container'+index;
+                            }
+                        });
+                    }
                 });
             }catch (err) {
 
@@ -104,15 +113,18 @@ export default {
             z-index: 1;
             .minus{
                 position: absolute;
-                top: 50%;
+                top: 1rem;
                 right: 2.5rem;
             }
             .minus:before{
                 position: absolute;
                 content: ' ';
-                height: 2px;
-                width: 1.4rem;
-                background-color: $grey_c;
+                background:url('../../static/img/graytype.png');
+                height: 2.6rem;
+                width: 1.8rem;
+                top: 0;
+                background-size: 100%;
+                background-repeat: no-repeat;
             }
         }
     }

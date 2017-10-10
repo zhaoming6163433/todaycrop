@@ -8,7 +8,7 @@
                     infinite-scroll-disabled="loading"
                     infinite-scroll-immediate-check="false"
                     infinite-scroll-distance="10">
-                    <li v-for="item in seeklist" @click="godetail(item)">
+                    <li v-for="(item, index) in seeklist" :key="index" @click="godetail(item)">
                         <div class="title ellipisis2">{{ item | titlef }}</div>
                         <div class="logo"><img :src="item._urlinfo&&item._urlinfo.logoimg || defaultimg" @error="loaderrimg" @load="loadimg"/></div>
                         <div class="domain"><span>{{ item.domain }}</span><img :src="`http://statics.dnspod.cn/proxy_favicon/_/favicon?domain=${item.domain}`" @error="loaderrimg" @load="loadimg" type="logogray"/></div>
@@ -82,15 +82,20 @@ export default {
         //每次都清空数据
         util.initdata(this);
         this.SAVE_MY_SEEK({'sel_type':'', '_id':'', 'ishasdata':true});
-        util.vueEvent.$emit("homebar",'myseek');
         //每次都重新加载，也可以下拉刷新
         util.showloading();
+        //有参数就用参数的参数
+        let obj = this.$route.query.querytype&&JSON.parse(this.$route.query.querytype);
+        if(obj){
+            this.SAVE_MY_SEEK({'sel_type':obj.type, '_id':obj._id});
+        }
+
         if(this.userinfo._id){
             //查询当前用户分类列表
-            this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
+                this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
         }else{
             this.get_user_islogin( (_id)=> {
-                this.get_seekinfo({id:_id, pageNum:1, pageSize:this.maxlength});
+                    this.get_seekinfo({id:_id, pageNum:1, pageSize:this.maxlength});
             });
         }
     },
@@ -203,6 +208,8 @@ export default {
             util.initdata(this);
             this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
         });
+        //刷新时就不跳转了只改变按钮样式
+        util.vueEvent.$emit("homebar",'myseek');
     }
 }
 

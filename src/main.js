@@ -10,7 +10,7 @@ import vueutil from './util/vueutil.js'
 import store from './store'
 
 import 'mint-ui/lib/style.css'
-
+import '../static/css/animate.min.css';
 
 Vue.config.productionTip = false
 Vue.use(VueResource);
