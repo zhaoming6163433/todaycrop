@@ -21,6 +21,35 @@ export default{
     Vue.filter("timeallhandle", function(time) {
 	    return time==''?'':new Date(time).Format("yyyy-MM-dd hh:mm:ss");
     });
+    //计算几天前
+    Vue.filter("timeago", function([nowtime,publishTime]){
+        var publishTime = publishTime/1000;
+        var d_seconds,d_minutes,d_hours,d_days;
+        var timeNow = parseInt(nowtime/1000);
+        var d;
+        var r;
+        d = timeNow - publishTime;
+        d_days = parseInt(d/86400);
+        d_hours = parseInt(d/3600);
+        if(d_hours>0){
+            r = d - d_hours*3600;
+            d_minutes = parseInt(r/60);
+            d_seconds = parseInt(r);
+            d_hours = d_hours - d_days*24;
+        }else{
+            d_minutes = parseInt(d/60);
+            d_seconds = parseInt(d);
+        }
+        if(d_days>0){
+            return d_days+"天前";
+        }else if(d_days<=0 && d_hours>0){
+            return d_hours+"小时前";
+        }else if(d_hours<=0 && d_minutes>0){
+            return d_minutes+"分钟前";
+        }else if(d_minutes<=0 && d_seconds>=0 ){
+            return "刚刚"
+        }
+    });
     //返回上一页
     Vue.prototype.goback = function(){
 		this.$router.go(-1);
@@ -57,6 +86,6 @@ export default{
 				_dom.css('height','auto');
 				_dom.css('margin-top',margintop+'px');
 			}
-	}
+    }
   }
 }

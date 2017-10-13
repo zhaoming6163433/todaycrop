@@ -3,7 +3,7 @@
     <mt-navbar v-model="active">
         <div class="swiper-container">
             <div class="swiper-wrapper">
-                <mt-tab-item class="swiper-slide" :key="index" :id="`tab-container${index}`" v-for="( item, index ) in typelist">
+                <mt-tab-item class="swiper-slide seektype-slide" :key="index" :id="`tab-container${index}`" v-for="( item, index ) in typelist">
                     <div class="tab" @click="checktab(item)">
                         <div class="seektype">{{item.seekname}}</div>
                     </div>
@@ -49,7 +49,7 @@ export default {
             try{
                 let res = await api_get_seek();
                 this.typelist = this.typelist.concat(res.result);
-
+                this.SAVE_MY_SEEK({'ishasdata':true,'typelist':this.typelist});
                 this.$nextTick(() => {
                     let swiper = new Swiper('.swiper-container', {
                         pagination: '.swiper-pagination',
@@ -69,7 +69,7 @@ export default {
                     }
                 });
             }catch (err) {
-
+                this.SAVE_MY_SEEK({'ishasdata':false});
             }
         },
         //点击类别
@@ -92,7 +92,13 @@ export default {
 }
 
 </script>
-
+<style>
+.seektype-slide .mint-tab-item-label{
+    width: 100%;
+    height: 49px;
+    line-height: 49px;
+}
+</style>
 <style lang="scss" scoped>
   @import 'static/css/common_color.scss';
     .topseek{
@@ -128,6 +134,7 @@ export default {
             }
         }
     }
+
     .mint-tab-item{
         flex:none;
     }
@@ -141,12 +148,8 @@ export default {
         }
     }
     .tab >div{
-        font-size:1.6rem;
+        font-size:1.7rem;
         color:$black_c;
-    }
-    /*types滑动样式*/
-    .seektype{
-
     }
     .swiper-container {
         width: 100%;

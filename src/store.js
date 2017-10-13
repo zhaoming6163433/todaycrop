@@ -8,40 +8,29 @@ const state = {
         username:'',
         userid:''
     },
-	//添加地址
-	collecturl:{
-		showcollecturl:false,//展示地址收藏
-		website:''//地址
-	},
-	//添加分类
-	createseek:{
-		showseekname:false,
-		seekname:''
-    },
     //个人分类
     myseek:{
         ishasdata:true,
         sel_type:'',
-        _id:''
-    }
+        _id:'',
+        typelist:[]//分类列表
+    },
+    //分类列表信息
+    seeklist:[]
 }
 const mutations = {
     SAVE_USER_INFO(state, obj) {
 		state.userinfo = obj;
 	},
-	SHOW_COLLECT_URL(state, obj) {
-		state.collecturl.showcollecturl = obj.flag;
-		state.collecturl.website = obj.website;
-	},
-	SHOW_SEEK_NAME(state, obj) {
-		state.createseek.showseekname = obj.flag;
-		state.createseek.seekname = obj.seekname;
-    },
     SAVE_MY_SEEK(state, obj){
         state.myseek.sel_type = obj.sel_type!=undefined?obj.sel_type:state.myseek.sel_type;
         state.myseek._id = obj._id!=undefined?obj._id:state.myseek._id;
         state.myseek.ishasdata = obj.ishasdata!=undefined?obj.ishasdata:state.myseek.ishasdata;
-    }
+        state.myseek.typelist = obj.typelist!=undefined?obj.typelist:state.myseek.typelist;
+    },
+    SAVE_SEEK_LIST(state, arr) {
+		state.seeklist = arr;
+	}
 }
 const getters = {
 

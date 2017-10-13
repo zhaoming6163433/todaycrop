@@ -1,11 +1,9 @@
 <template>
   <div id="app">
     <loading v-show="showLoading"></loading>
-    <transition name="router-fade" mode="out-in">
-        <keep-alive>
-            <router-view ></router-view>
-        </keep-alive>
-    </transition>
+    <keep-alive>
+        <router-view ></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -27,7 +25,16 @@ export default {
             'homechild':'今日口袋',
             'login':'登录',
             'register':'注册',
-            'updateseek':'编辑类别'
+            'updateseek':'编辑类别',
+            'createseek':'新增类别',
+            'collecturl':'新增网址'
+          },
+          //页面左右滑动优先级
+          levelist: {
+              'homechild':1,
+              'myseek':2,
+              'mytalk':3,
+              'myInfo':4
           }
       }
   },
@@ -36,6 +43,8 @@ export default {
     router.beforeEach((to, from, next) => {
       //首页拦截展示标题和页面样式切换
       this.hometab(to);
+      //给路由添加优先级
+      this.addlevel(to,from);
       next();
       //初始化滚动事件监听
       document.body.scrollTop = 0;
@@ -72,6 +81,10 @@ export default {
           break;
       }
     },
+    addlevel(to,from){
+        to.params.level = this.levelist[to.name]?this.levelist[to.name]:999;
+        from.params.level = this.levelist[from.name]?this.levelist[from.name]:999;
+    },
     //第一次进入页面也判断标题
     firstitle(){
       let url = window.location.href;
@@ -96,12 +109,6 @@ export default {
 </script>
 
 <style>
-/*.router-fade-enter-active, .router-fade-leave-active {
-      transition: opacity .1s;
-}
-.router-fade-enter, .router-fade-leave-active {
-    opacity: 0;
-}*/
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   color: #000000;
@@ -115,6 +122,9 @@ export default {
   right: 0;
 }
 img{
+    width:100%;
+}
+html{
     width:100%;
 }
 body{
@@ -136,7 +146,7 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 }
 /*距离底部*/
 .marginbt{
-  margin-bottom: 4.5rem;
+  margin-bottom: 55px;
 }
 /*左右边距离*/
 .marginleft{
@@ -183,5 +193,8 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
   position:absolute;
   background:url('../static/img/close.png') no-repeat;
   background-size: 100%;
+}
+.mint-toast{
+    z-index:99999;
 }
 </style>

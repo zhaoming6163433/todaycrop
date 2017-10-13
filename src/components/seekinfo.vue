@@ -12,6 +12,9 @@
                         <div class="title ellipisis2">{{ item | titlef }}</div>
                         <div class="logo"><img :src="item._urlinfo&&item._urlinfo.logoimg || defaultimg" @error="loaderrimg" @load="loadimg"/></div>
                         <div class="domain"><span>{{ item.domain }}</span><img :src="`http://statics.dnspod.cn/proxy_favicon/_/favicon?domain=${item.domain}`" @error="loaderrimg" @load="loadimg" type="logogray"/></div>
+                        <div class="createdate"><span>创建日期</span><span>{{ item.createTime | timedatehandle }}</span></div>
+                        <div class="belongseek" @click="belongseek(item,$event)">归类</div>
+                        <div class="setpublic" @click="setPublicInfo(item,$event)"><div v-if="item.setpublic" class="pubdiv">公开</div><div v-else class="pridiv">私有</div></div>
                         <div class="delete" @click="deleteInfo(item,$event)"><img src="../../static/img/delete.png"/></div>
                     </li>
                 </ul>
@@ -19,15 +22,17 @@
                 <loadingcmp v-show="loading"></loadingcmp>
             </mt-loadmore>
         </section>
+        <seekpopup  :classtypestop="classtypestop"></seekpopup>
         <nodatac :text="nodatacobj.text"  :type="1" :nodataimg="nodatacobj.nodataimg" v-show="shownodata"></nodatac>
     </div>
 </template>
 
 <script>
-import { api_user_islogin, api_get_seekinfo, api_delWebUrlInfo } from 'src/model/api.js'
+import { api_user_islogin, api_get_seekinfo, api_delWebUrlInfo, api_set_addr_pub } from 'src/model/api.js'
 import { mapState, mapMutations } from 'vuex'
 import util from 'src/util/util.js'
 import nodatac from 'src/components/nodatac'
+import seekpopup from 'components/seekpopup'
 import loadingcmp from 'components/loadingcmp'
 import loadbottom from 'components/loadbottom'
 import appConfigs from 'src/configs'
@@ -41,6 +46,7 @@ export default {
             active:'tab-container0',
             bindid:'seekinfo',//滚动绑定页面
             showbottom:false,//是否已经到底
+            classtypestop:200,//类别选择默认距离顶部距离
             nodatacobj:{
                 text:'',
                 nodataimg:appConfigs.assetsPublicPath+'/static/img/no_img_middle.png'
@@ -50,8 +56,7 @@ export default {
             totalpage:0,//共几页
             shownodata:false,//判断列表是否有数据
             defaultimg: appConfigs.assetsPublicPath+'/static/img/picturedefault.png',
-            totallist:[],//当前返回总集合
-            seeklist:[],
+            totallist:[],//当前返回总集
             userInfo:{}
         }
     },
@@ -67,7 +72,8 @@ export default {
     components: {
         nodatac,
         loadingcmp,
-        loadbottom
+        loadbottom,
+        seekpopup
     },
     created(){
 
@@ -75,13 +81,15 @@ export default {
     computed:{
         ...mapState([
             'userinfo',
-            'myseek'
+            'myseek',
+            'seeklist'
         ])
     },
     activated(){
         //每次都清空数据
         util.initdata(this);
-        this.SAVE_MY_SEEK({'sel_type':'', '_id':'', 'ishasdata':true});
+        util.vueEvent.$emit("popupVisibleTypes",false);
+        this.SAVE_MY_SEEK({'sel_type':'', '_id':'', 'ishasdata':false,'typelist':[]});
         //每次都重新加载，也可以下拉刷新
         util.showloading();
         //有参数就用参数的参数
@@ -102,7 +110,8 @@ export default {
     methods : {
         ...mapMutations({
             SAVE_USER_INFO: 'SAVE_USER_INFO',//用户信息
-            SAVE_MY_SEEK: 'SAVE_MY_SEEK'//个人分类
+            SAVE_MY_SEEK: 'SAVE_MY_SEEK',//个人分类
+            SAVE_SEEK_LIST: 'SAVE_SEEK_LIST'//分类列表信息
         }),
         //是否登录
         async get_user_islogin(callback){
@@ -112,22 +121,19 @@ export default {
                 callback(res.result._id);
             }catch (err) {
                 this.SAVE_USER_INFO({});
-                this.seeklist = [];
+                this.SAVE_SEEK_LIST([]);
                 if(err.code == 1000){
                     this.nodatacobj.text = '请登录后查看'
                 }else{
                     this.nodatacobj.text = '啊哦！网络请求失败了'
                 }
-                this.SAVE_MY_SEEK({'ishasdata':false});
-                console.log(this.myseek.ishasdata)
                 this.shownodata = true;
             }
         },
         //查询分类列表
         async get_seekinfo(params,callback){
             try{
-                if(this.myseek.sel_type || this.myseek.sel_type==0){
-                    params.type = this.myseek.sel_type;
+                if(this.myseek.sel_type || this.myseek.sel_type===0){
                     params.typeid = this.myseek._id;
                 }
 
@@ -138,7 +144,7 @@ export default {
                 this.loading = false;
                 this.totalpage = res.totalpage;
                 this.totallist = this.totallist.concat(res.result);
-                this.seeklist = this.totallist;
+                this.SAVE_SEEK_LIST(this.totallist);
                 if(res.result.length == 0){
                     this.shownodata = true;
                     this.nodatacobj.text = '暂无数据';
@@ -146,7 +152,7 @@ export default {
                     this.shownodata = false;
                 }
             }catch (err) {
-                this.seeklist = [];
+                this.SAVE_SEEK_LIST([]);
                 this.nodatacobj.text = '啊哦！网络请求失败了'
                 this.shownodata = true;
             }
@@ -160,9 +166,21 @@ export default {
                 util.closeloading();
                 util.toastinfo('删除成功');
                 util.initdata(this);
-                this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
+                util.vueEvent.$emit("refreshseeklist",params);
             }catch (err) {
-                util.toastinfo(err.message||'删除失败');
+                util.toastinfo('删除失败');
+            }
+        },
+        //公开地址
+        async set_addr_pub(params,callback){
+            util.showloading();
+            try{
+                let res = await api_set_addr_pub(params);
+                callback(params.setpublic);
+                util.closeloading();
+                util.toastinfo('设置成功');
+            }catch (err) {
+                util.toastinfo('设置失败');
             }
         },
         //下拉刷新
@@ -180,7 +198,11 @@ export default {
                 this.pageNum++;
                 this.get_seekinfo({id:this.userinfo._id, pageNum:this.pageNum, pageSize:this.maxlength});
             }else{
-                this.showbottom = true;
+                if(this.totallist.length>0&&this.totalpage>1){
+                    this.showbottom = true;
+                }else{
+                    this.showbottom = false;
+                }
             }
         },
         //跳转详情
@@ -192,21 +214,61 @@ export default {
                 window.location.href = item.url;
             }
         },
+        //归纳分类
+        belongseek(item,e){
+            e.stopPropagation();
+            this.classtypestop = $(e.currentTarget).offset().top+$(e.currentTarget).height()-$(window).scrollTop()+5;
+            util.vueEvent.$emit("popupVisibleTypes",true,item._id);
+        },
         //删除
         deleteInfo(item,e){
             e.stopPropagation();
             this.$messagebox.confirm('您确定要删除该条地址？','').then(() => {
-                let params = {url:item.url,userid:this.userinfo._id}
+                let params = {url:item.url,_id:item._id}
                 this.get_delWebUrlInfo(params);
+            },() => {
+
+            });
+        },
+        //设置公开
+        setPublicInfo(item,e){
+            e.stopPropagation();
+            let tip = '';
+            let flag = false;
+            if(item.setpublic){
+                tip = '您确定要撤销公开该条地址？';
+                flag = false;
+            }else{
+                tip = '您确定要公开该条地址？'
+                flag = true;
+            }
+            this.$messagebox.confirm(tip,'').then(() => {
+                let params = {_id:item._id, setpublic:flag}
+                this.set_addr_pub(params,(isflag)=>{
+                    item.setpublic = isflag;
+                });
             },() => {
 
             });
         }
     },
     mounted(){
+        //刷新页面
         util.vueEvent.$on("refreshseek", () => {
             util.initdata(this);
             this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
+        });
+        //监听删除和设置分类后刷新dom
+        util.vueEvent.$on("refreshseeklist", (id) => {
+            this.seeklist.forEach((item,index) => {
+                if(item._id == id){
+                    this.seeklist.splice(index,1);
+                }
+            });
+            if(this.seeklist.length==0){
+                this.shownodata = true;
+                this.nodatacobj.text = '暂无数据';
+            }
         });
         //刷新时就不跳转了只改变按钮样式
         util.vueEvent.$emit("homebar",'myseek');
@@ -236,14 +298,14 @@ export default {
             ul>li{
                 position:relative;
                 border-bottom:1px solid $bord_c;
-                height: 9rem;
+                height: 11rem;
                 overflow: hidden;
                 >div{
                     position:absolute;
                 }
             }
             .title{
-                width: 68%;
+                width: 66%;
                 top: 1.2rem;
                 font-size: 1.7rem;
             }
@@ -266,7 +328,7 @@ export default {
                     line-height: 2rem;
                     display: inline-block;
                     vertical-align: middle;
-                    max-width: 57%;
+                    max-width: 55%;
                 }
                 img{
                     width: 1.1rem!important;
@@ -274,10 +336,45 @@ export default {
                     vertical-align: middle;
                 }
             }
-            .delete{
-                right: 9.5rem;
-                width: 1.5rem;
+            .createdate{
                 bottom: 1rem;
+                font-size: 1.2rem;
+                color:$grey_c;
+                >span:nth-child(2){
+                    margin-left:1rem;
+                }
+            }
+            .belongseek{
+                right: 6rem;
+                width: 2.4rem;
+                bottom: 0.9rem;
+                font-size: 1rem;
+                text-align: center;
+                border-radius: 5px;
+                color: $grey_c;
+                border: 1px solid $bord_c;
+            }
+            .delete{
+                right: 0;
+                width: 1.5rem;
+                bottom: 0.5rem;
+            }
+            .setpublic{
+                right: 2.5rem;
+                width: 2.4rem;
+                bottom: 0.9rem;
+                font-size: 1rem;
+                text-align: center;
+                .pubdiv{
+                    border-radius: 5px;
+                    color: $toutiao_r;
+                    border: 1px solid $toutiao_r;
+                }
+                .pridiv{
+                    border-radius: 5px;
+                    color: $grey_c;
+                    border: 1px solid $bord_c;
+                }
             }
         }
     }

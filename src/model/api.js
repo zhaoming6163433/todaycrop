@@ -7,7 +7,6 @@ import vueRequest from 'src/config/vueRequest'
 
 export const api_get_article = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/getArticle?', params, 'GET');
 
-
 /**
  * 图灵机器人
  */
@@ -65,10 +64,15 @@ export const api_del_seekname = (params) => vueRequest(appConfigs.urlWebHttp + '
 
 
 /**
- * 当前用户分类
+ * 查询信息列表
  */
 
-export const api_get_seekinfo = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/getWebUrlInfo?', params, 'GET');
+export const api_get_seekinfo = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/getWebUrlInfo?', params, 'POST');
+
+/**
+ * 查询公共信息列表
+ */
+export const api_public_article = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/public_article?', params, 'GET');
 
 
 /**
@@ -90,3 +94,24 @@ export const api_get_seek = (params) => vueRequest(appConfigs.urlWebHttp + '/api
  */
 
 export const api_update_seeksort = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/update_seeksort?', params, 'POST');
+
+
+/**
+ * 设置地址公开或私有
+ */
+
+export const api_set_addr_pub = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/set_addr_pub?', params, 'POST');
+
+
+/**
+ * 修改阅读量
+ */
+
+export const api_up_quantity = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/up_quantity?', params, 'POST');
+
+
+/**
+ * 修改文章到指定分类
+ */
+
+export const api_up_url_seek = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/up_url_seek?', params, 'POST');

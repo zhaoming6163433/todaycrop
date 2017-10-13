@@ -33,12 +33,12 @@ export default {
   },
   methods : {
     startfn(e){
-      let touch = e.touches[0]; 
+      let touch = e.touches[0];
       this.startY = touch.screenY;
       this.styletrans['-webkit-transition'] = '0s';
     },
     movefn(e){
-      let touch = e.touches[0]; 
+      let touch = e.touches[0];
       this.moveY = touch.screenY-this.startY;
       if(this.moveY<0&&this.moveY>-35){
         let move1 = this.moveY;
@@ -75,7 +75,7 @@ export default {
 <style lang="scss" scoped>
 @import 'static/css/common_color.scss';
   .loadbottom{
-    margin-bottom: 4.5rem;
+    margin-bottom: 55px;
     position:relative;
     width:100%;
     .showbottom{

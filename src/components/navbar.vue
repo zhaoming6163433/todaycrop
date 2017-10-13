@@ -4,7 +4,7 @@
         <mt-tab-item id="homechild">
             <div class="outdiv" @click="gopage('homechild')">
                 <div class="barimg home img1"></div>
-                首页
+                推荐
             </div>
         </mt-tab-item>
         <mt-tab-item id="myseek">
@@ -80,6 +80,7 @@ export default {
         padding:0;
     }
     .mint-tabbar > .mint-tab-item.is-selected{
+        border-top:1px solid $bord_c;
         color: $toutiao_r!important;
         background-color:$nav_tabbar;
     .img1{

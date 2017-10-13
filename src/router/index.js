@@ -8,6 +8,8 @@ import article from '@/view/article'//文章
 import login from '@/view/login'//登录
 import register from '@/view/register'//注册
 import updateseek from '@/view/updateseek'//修改类别
+import collecturl from '@/view/collecturl'//添加地址
+import createseek from '@/view/createseek'//添加类别
 
 Vue.use(Router)
 
@@ -61,6 +63,16 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: register
+    },
+    {//添加地址
+        path: '/collecturl',
+        name: 'collecturl',
+        component: collecturl
+    },
+    {//添加类别
+        path: '/createseek',
+        name: 'createseek',
+        component: createseek
     }
   ]
 })

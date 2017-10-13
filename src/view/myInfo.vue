@@ -97,15 +97,15 @@ export default {
         collecturl(){
             //点击时vuex就肯定有值了就不需要掉接口判断了
             if(this.userinfo._id){
-                this.SHOW_COLLECT_URL({ 'flag': true ,'website':''});
+                this.$router.push({name:'collecturl'});
             }else{
                 util.toastinfo('请先登录');
             }
         },
-            //创建分类
+        //创建分类
         createseek(){
             if(this.userinfo._id){
-                this.SHOW_SEEK_NAME({ 'flag': true ,'seekname':''});
+                this.$router.push({'name':'createseek'});
             }else{
                 util.toastinfo('请先登录');
             }

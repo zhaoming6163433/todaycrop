@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import appConfigs from 'src/configs'
-import api from 'src/model/api.js'
+import { api_up_quantity } from 'src/model/api.js'
 
 let getevent=()=>{
 	var Event = new Vue();
@@ -9,7 +9,10 @@ let getevent=()=>{
 const vueEvent = getevent();
 
 const utils = {
-	vueEvent:vueEvent,
+    vueEvent:vueEvent,
+    async up_quantity(id){
+        let res = await api_up_quantity({'_id':id});
+    },
 	//打电话
 	realcall(e){
         window.location.href = "tel:"+ e.name;
@@ -103,10 +106,10 @@ const utils = {
 	},
 	//禁止默认滚动条滚动，用于弹出窗
 	forbidscroll(){
-		document.getElementById("todaycrop").style.overflow="hidden";
+        document.getElementById("todaycrop").style.overflow="hidden";
 	},
 	allscroll(){
-		document.getElementById("todaycrop").style.overflow="";
+        document.getElementById("todaycrop").style.overflow="";
 	},
 	//提示底部toast
     toastinfo(msg){

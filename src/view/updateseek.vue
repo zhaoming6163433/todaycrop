@@ -66,9 +66,9 @@
             async delseek(params) {
                 try{
                     let res = await api_del_seekname(params);
-                    this.typelist.forEach((item)=> {
+                    this.typelist.forEach((item,index)=> {
                         if(item._id == params._id){
-                            this.typelist.pop(item);
+                            this.typelist.splice(index,1)
                         }
                     });
                 } catch (err){
@@ -107,7 +107,7 @@
                     this.start_drag();
                     setTimeout(()=>{
                         this.animate = '';
-                    },1000);
+                    },500);
                 }else{
                     this.showdelete = false;
                     this.uprighttext = '编辑';
@@ -148,7 +148,8 @@
             }
         },
         mounted() {
-
+            //刷新时就不跳转了只改变按钮样式
+            util.vueEvent.$emit("homebar",'myseek');
         }
     }
 </script>
@@ -158,7 +159,10 @@
     .sortable-ghost {
         opacity: .2;
     }
-
+    .animated {
+        animation-duration: .5s;
+        animation-fill-mode: both;
+    }
     .updateseek {
         .upbtn{
             margin-top: 3rem;
