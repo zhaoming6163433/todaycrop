@@ -1,12 +1,13 @@
 <template>
   <div class="article">
-  	<iframe :src="url"></iframe>
+  	<iframe :src="url" ></iframe>
   </div>
 </template>
 
 <script>
 import vueutil from 'src/util/vueutil.js'
 import api from 'src/model/api.js'
+import util from 'src/util/util.js'
 import {api_get_tuling_bot} from 'src/model/api.js'
 
 export default {
@@ -36,8 +37,12 @@ export default {
     }
   },
   activated(){
+      util.showloading();
       let params = this.$route.query;
       this.url = params.url;
+      setTimeout(()=>{
+          util.closeloading();
+      },500);
   },
   mounted(){
     //this.get_tuling_bot({'info':'haha','userid':'zhaoming'});

@@ -25,7 +25,7 @@ export default {
             'homechild':'今日口袋',
             'login':'登录',
             'register':'注册',
-            'article':'网址详情',
+            'article':'地址详情',
             'updateseek':'编辑类别',
             'createseek':'新增类别',
             'collecturl':'新增网址'
