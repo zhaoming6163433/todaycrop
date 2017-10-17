@@ -113,11 +113,18 @@ const utils = {
 	},
 	//提示底部toast
     toastinfo(msg){
+        $('.mint-toast').remove();
         Vue.$toast({
             message: msg,
+            className:'fadeInUp animated',
             position: 'bottom',
             duration: appConfigs.toastime
         });
+        setTimeout(()=>{
+            let left = (-$('.mint-toast').width()/2)+'px';
+            $('.mint-toast').css('margin-left',left);
+        },10);
+
     },
     //菊花loading
     showloading(){

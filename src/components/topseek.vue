@@ -59,10 +59,10 @@ export default {
                     });
                     $('.topseek .swiper-wrapper').css('transform','translate3d(0px, 0px, 0px)');
                     //查询后如果有类别只切换样式和存类别 查询在topseek
-                    let obj = this.$route.query.querytype&&JSON.parse(this.$route.query.querytype);
+                    let obj = this.myseek;
                     if(obj){
                         this.typelist.forEach((item, index) => {
-                            if(item.type == obj.type){
+                            if(item.type == obj.sel_type){
                                 this.active = 'tab-container'+index;
                             }
                         });

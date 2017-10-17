@@ -47,6 +47,7 @@ export default new Router({
         }
       ]
     },
+    //文章内链
     {
       path: '/article',
       name: 'article',

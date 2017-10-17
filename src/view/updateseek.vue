@@ -49,6 +49,9 @@
             this.getseek();
         },
         methods: {
+            ...mapMutations({
+                SAVE_MY_SEEK: 'SAVE_MY_SEEK'//个人分类
+            }),
             //获取个人类别列表
             async getseek() {
                 try {
@@ -143,7 +146,8 @@
 
                     });
                 }else{
-                    this.$router.push({name:'myseek',query:{'querytype':JSON.stringify(item)}});
+                    this.SAVE_MY_SEEK({'sel_type':item.type, '_id':item._id});
+                    this.$router.go(-1);
                 }
             }
         },

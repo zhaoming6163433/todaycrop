@@ -2,7 +2,8 @@
   <div class="homechild">
         <section class="publictitle"><div><img src="../../../static/img/jiantou.png"/>为您推荐</div></section>
         <section class="content" id="homechild" >
-            <mt-loadmore class="loadmore" :top-method="loadTop"  topDropText="释放刷新" ref="loadmore">
+            <mt-loadmore class="loadmore" :top-method="loadTop"  topPullText="下拉推荐" topLoadingText="推荐中" topDropText="松开推荐" ref="loadmore">
+                <rectip></rectip>
                 <ul :class="showbottom?'':'marginbt'"
                     v-infinite-scroll="loadMore"
                     infinite-scroll-disabled="loading"
@@ -15,7 +16,7 @@
                         <div class="timeshow"><span>更新时间 {{ [item.systemtime,item.publictime] | timeago }} </span><span>浏览 {{item.quantity}}</span></div>
                     </li>
                 </ul>
-                <loadbottom v-show="showbottom" :bindid="bindid"></loadbottom>
+                <loadbottom v-show="showbottom" :bindid="bindid" :text="'没有更多推荐了'"></loadbottom>
                 <loadingcmp v-show="loading"></loadingcmp>
             </mt-loadmore>
         </section>
@@ -29,6 +30,7 @@ import nodatac from 'src/components/nodatac'
 import loadingcmp from 'components/loadingcmp'
 import loadbottom from 'components/loadbottom'
 import appConfigs from 'src/configs'
+import rectip from 'components/recommendtip'
 import { api_public_article } from 'src/model/api.js'
 
 export default {
@@ -49,7 +51,8 @@ export default {
             shownodata:false,//判断列表是否有数据
             defaultimg: appConfigs.assetsPublicPath+'/static/img/picturedefault.png',
             totallist:[],//当前返回总集合
-            seeklist:[]
+            lastlist:[],//最后一次的集合
+            seeklist:[]//展示用的数组
         }
     },
     filters:{
@@ -64,7 +67,8 @@ export default {
     components: {
         nodatac,
         loadingcmp,
-        loadbottom
+        loadbottom,
+        rectip
     },
     created(){
 
@@ -74,7 +78,9 @@ export default {
     },
     methods : {
         //查询公共列表
-        async get_public_article(params,callback){
+        //callback在下拉刷新时用 moreupdown是否在没有更多的情况下执行了下拉刷新
+        async get_public_article(params,callback,moreupdown){
+            let showcomupdate = false;//是否展示还有更新 默认不展示
             try{
                 let res = await api_public_article(params);
                 util.closeloading();
@@ -82,30 +88,81 @@ export default {
                 console.log(res.result);
                 this.loading = false;
                 this.totalpage = res.totalpage;
-                this.totallist = this.totallist.concat(res.result);
+                if(callback){
+                    //处理下拉推荐
+                    let _list = [];
+                    _list = _list.concat(res.result);
+
+                    if(moreupdown){
+                        //当前页面有新推荐就刷新，没有就展示recomtip
+                        let samenum = 0;
+                        let resnum = res.result.length;
+                        let lastnum = this.lastlist.length;
+
+                        this.lastlist.forEach((item1)=> {
+                            res.result.forEach((item2,index)=> {
+                                if(item1._id == item2._id){
+                                    samenum++;
+                                }
+                            })
+                        });
+
+                        if(samenum==resnum && resnum==lastnum && samenum==lastnum) showcomupdate = true;
+                        //有不同的就刷新
+                        if(!showcomupdate){
+                            this.lastlist.forEach((item1)=> {
+                                this.totallist.forEach((item2,index)=> {
+                                    if(item1 == item2){
+                                        this.totallist.splice(index,1);
+                                    }
+                                })
+                            });
+                            this.totallist = _list.concat(this.totallist);
+                        }
+                    }else{
+                        this.totallist = _list.concat(this.totallist);
+                    }
+                }else{
+                    this.totallist = this.totallist.concat(res.result);
+                }
                 this.seeklist = this.totallist;
+                this.lastlist = res.result;
                 if(res.result.length == 0){
                     this.shownodata = true;
                     this.nodatacobj.text = '暂无数据';
                 }else{
                     this.shownodata = false;
                 }
+                callback?callback(showcomupdate):'';
             }catch (err) {
                 this.seeklist = [];
                 this.nodatacobj.text = '啊哦！网络请求失败了'
                 this.shownodata = true;
+                callback?callback():'';
             }
-            callback?callback():'';
+
         },
-        //下拉刷新
+        //下拉推荐
         loadTop() {
-            console.log("下拉在执行");
-            util.initdata(this);
-            this.get_public_article({ pageNum:1, pageSize:this.maxlength },()=>{
-                this.$refs.loadmore.onTopLoaded();
-            });
+            if(this.pageNum<this.totalpage){
+                this.pageNum++;
+                this.get_public_article({ pageNum:this.pageNum, pageSize:this.maxlength },()=>{
+                    util.vueEvent.$emit("recomtip",'推荐已更新');
+                    this.$refs.loadmore.onTopLoaded();
+                });
+            }else{
+                //下拉刷新时查询当前页面是否有新的内容，如果有就在数组尾部增加内容
+                this.get_public_article({ pageNum:this.pageNum, pageSize:this.maxlength },(flag)=>{
+                    this.$refs.loadmore.onTopLoaded();
+                    if(flag){
+                        util.vueEvent.$emit("recomtip",'没有更多推荐了');
+                    }else{
+                        util.vueEvent.$emit("recomtip",'推荐已更新');
+                    }
+                },true);
+            }
         },
-        //上拉加载
+        //上拉推荐
         loadMore(){
             if(this.pageNum<this.totalpage){
                 this.loading = true;
@@ -118,11 +175,13 @@ export default {
         //跳转详情
         godetail(item){
             util.up_quantity(item._id);
+            let url = '';
             if(item._urlinfo && item._urlinfo._id && item._urlinfo.readability == true){
-                window.location.href = appConfigs.ssrurl+"/article/"+item._urlinfo._id;
+                url = appConfigs.ssrurl+"/article/"+item._urlinfo._id;
             }else{
-                window.location.href = item.url;
+                url = item.url;
             }
+            this.$router.push({name:'article',query:{'url':url}});
         }
     },
     mounted(){
@@ -140,6 +199,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import 'static/css/common_color.scss';
+    @keyframes updownanimate{
+        0%   {top: -5px}
+        100% {top: 5px}
+    }
     .homechild{
         height:90%;
         .loadmore{
@@ -156,8 +219,13 @@ export default {
                 background-color:$toutiao_r;
                 color:$wihte_c;
                 img{
+                    position: relative;
                     margin-right: 1rem;
                     width:1.3rem;
+                    animation-iteration-count: infinite;
+                    animation-duration:1s;
+                    animation-direction:alternate;
+                    animation-name:updownanimate;
                 }
             }
         }

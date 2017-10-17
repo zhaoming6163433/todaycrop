@@ -28,6 +28,7 @@ export default {
             website:'',
             typeitem:{
                 name:'选择分类',
+                type:'',
                 typeid:''
             },
             typelist:[]
@@ -53,6 +54,7 @@ export default {
             res.result.forEach((item)=> {
                 var obj = {
                     name: item.seekname,
+                    type: item.type,
                     typeid: item._id,
                     method: this.handltype
                 }
@@ -79,11 +81,12 @@ export default {
         },
         //保存
         saveUrl(){
-            let params = {'url':this.website,'type':'','typeid':''};
+            let params = {'url':this.website,'type':this.typeitem.type,'typeid':this.typeitem.typeid};
             this.get_add_website(params);
         },
         //选择type
         handltype(item){
+            console.log(item)
             this.typeitem = item;
         }
     },

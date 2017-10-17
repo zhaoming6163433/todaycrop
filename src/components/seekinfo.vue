@@ -89,14 +89,8 @@ export default {
         //每次都清空数据
         util.initdata(this);
         util.vueEvent.$emit("popupVisibleTypes",false);
-        this.SAVE_MY_SEEK({'sel_type':'', '_id':'', 'ishasdata':false,'typelist':[]});
         //每次都重新加载，也可以下拉刷新
         util.showloading();
-        //有参数就用参数的参数
-        let obj = this.$route.query.querytype&&JSON.parse(this.$route.query.querytype);
-        if(obj){
-            this.SAVE_MY_SEEK({'sel_type':obj.type, '_id':obj._id});
-        }
 
         if(this.userinfo._id){
             //查询当前用户分类列表
@@ -198,7 +192,7 @@ export default {
                 this.pageNum++;
                 this.get_seekinfo({id:this.userinfo._id, pageNum:this.pageNum, pageSize:this.maxlength});
             }else{
-                if(this.totallist.length>0&&this.totalpage>1){
+                if(this.totallist.length>5){
                     this.showbottom = true;
                 }else{
                     this.showbottom = false;
@@ -207,12 +201,13 @@ export default {
         },
         //跳转详情
         godetail(item){
-            console.log(item._urlinfo)
+            let url = '';
             if(item._urlinfo && item._urlinfo._id && item._urlinfo.readability == true){
-                window.location.href = appConfigs.ssrurl+"/article/"+item._urlinfo._id;
+                url = appConfigs.ssrurl+"/article/"+item._urlinfo._id;
             }else{
-                window.location.href = item.url;
+                url = item.url;
             }
+            this.$router.push({name:'article',query:{'url':url}});
         },
         //归纳分类
         belongseek(item,e){
@@ -259,9 +254,10 @@ export default {
             this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
         });
         //监听删除和设置分类后刷新dom
-        util.vueEvent.$on("refreshseeklist", (id) => {
+        util.vueEvent.$on("refreshseeklist", (params) => {
             this.seeklist.forEach((item,index) => {
-                if(item._id == id){
+                if(item._id == params._id){
+                    console.log('delete')
                     this.seeklist.splice(index,1);
                 }
             });

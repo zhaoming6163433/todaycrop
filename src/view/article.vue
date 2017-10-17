@@ -1,52 +1,25 @@
 <template>
   <div class="article">
-    <progressbar></progressbar>
-  	<div v-html="readabilitylist.content"></div>
+  	<iframe :src="url"></iframe>
   </div>
 </template>
 
 <script>
 import vueutil from 'src/util/vueutil.js'
 import api from 'src/model/api.js'
-import {api_get_article,api_get_tuling_bot} from 'src/model/api.js'
-import progressbar from 'components/progressbar'
+import {api_get_tuling_bot} from 'src/model/api.js'
 
 export default {
   name: 'article',
   data () {
     return {
-      readabilitylist:{},//内容
-      scrollHeight:0//滚动条总高度
+      url:''
     }
   },
   components:{
-    progressbar
+
   },
   methods : {
-    //获取访问页面的内容
-    async get_article(params){
-        try{
-            let res = await api_get_article(params);
-            console.log('-----获取访问页面的内容-----');
-            console.log(res);
-            if(res.result.content == false){
-              window.location.href = params.url;
-            }else{
-              //计算权重值
-              let score = res.result.content&&res.result.content.split(',').length;
-              if(score<2){
-                window.location.href = params.url;
-              }else{
-                this.readabilitylist = res.result;
-              }
-            }
-            this.$nextTick(() => {
-
-            });
-        }catch (err) {
-
-        }
-    },
     //图灵机器人
     async get_tuling_bot(params){
         try{
@@ -62,13 +35,27 @@ export default {
         }
     }
   },
+  activated(){
+      let params = this.$route.query;
+      this.url = params.url;
+  },
   mounted(){
-  	this.get_article({'url':'http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html'});
-    this.get_tuling_bot({'info':'haha','userid':'zhaoming'});
+    //this.get_tuling_bot({'info':'haha','userid':'zhaoming'});
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../../static/css/common_color.scss';
+.article{
+    width:100%;
+    height:100%;
+}
+iframe{
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
 </style>

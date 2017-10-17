@@ -2,7 +2,7 @@
   <div class="loadbottom">
     <div class="showbottom">
       <img v-bind:style="[styleObject1, styletrans]"  src="../../static/img/bottom_left.png"/>
-      <span v-bind:style="[stylespan, styletrans]">已经到底了</span>
+      <span v-bind:style="[stylespan, styletrans]">{{text?text:'已经到底了'}}</span>
       <img v-bind:style="[styleObject2, styletrans]"  src="../../static/img/bottom_right.png"/>
     </div>
   </div>
@@ -12,7 +12,7 @@
 
 export default {
   name: 'loadbottom',
-  props : ['bindid'],
+  props : ['bindid','text'],
   data () {
     return {
       stylespan:{
@@ -83,7 +83,7 @@ export default {
       background-color:$bottom_c;
       height: 2.7rem;
       line-height: 2.7rem;
-      font-size: 0.9rem;
+      font-size: 1.2rem;
       color:$grey_c;
       >span{
         position:relative;

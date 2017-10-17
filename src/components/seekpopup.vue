@@ -55,7 +55,7 @@ export default {
                 this.popupVisibleTypes = false;
                 //如果不是全部就删除，当前类别提示设置不了
                 if(this.myseek.sel_type || this.myseek.sel_type===0){
-                    util.vueEvent.$emit("refreshseeklist",params._id);
+                    util.vueEvent.$emit("refreshseeklist",params);
                 }
                 this.clicktypeflag = true;
                 util.toastinfo('设置成功');

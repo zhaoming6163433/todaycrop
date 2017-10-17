@@ -25,6 +25,7 @@ export default {
             'homechild':'今日口袋',
             'login':'登录',
             'register':'注册',
+            'article':'网址详情',
             'updateseek':'编辑类别',
             'createseek':'新增类别',
             'collecturl':'新增网址'
@@ -196,5 +197,9 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 }
 .mint-toast{
     z-index:99999;
+}
+.animated {
+    animation-duration: .5s;
+    animation-fill-mode: both;
 }
 </style>

@@ -11,14 +11,14 @@ export default {
   props : ['tiptext'],
   data () {
     return {
-      
+
     }
   },
   methods : {
-    
+
   },
   mounted(){
-      
+
   }
 }
 
@@ -35,7 +35,7 @@ export default {
       background-color:$bottom_c;
       height: 2.7rem;
       line-height: 2.7rem;
-      font-size: 0.9rem;
+      font-size: 1.2rem;
       color:$grey_c;
       >img:nth-child(1){
         position: relative;
