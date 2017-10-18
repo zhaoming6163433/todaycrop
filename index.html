@@ -12,10 +12,16 @@
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YEC9IHhGrw5361ioh6ugEsIqKIkPIwy7&services=&t=20170725120922"></script>
     <script src="static/js/screenscale.js" type="text/javascript" charset="utf-8"></script>
     <script src="static/js/dateformat.js" type="text/javascript" charset="utf-8"></script>
-  </head>
+</head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+        var urlstr = window.location.href;
+        if(urlstr.substr(urlstr.indexOf('#')+2) == ''){
+            document.getElementById('app').innerHTML = '今日收成最懂你';
+        }
+    </script>
     <script src="static/js/hammer.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="static/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
   </body>

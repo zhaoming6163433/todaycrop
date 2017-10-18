@@ -178,10 +178,12 @@ export default {
             let url = '';
             if(item._urlinfo && item._urlinfo._id && item._urlinfo.readability == true){
                 url = appConfigs.ssrurl+"/article/"+item._urlinfo._id;
+                this.$router.push({name:'article',query:{'url':url}});
             }else{
                 url = item.url;
+                window.location.href = url;
+                //window.open(url,'_blank');
             }
-            this.$router.push({name:'article',query:{'url':url}});
         }
     },
     mounted(){
