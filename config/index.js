@@ -26,7 +26,7 @@ module.exports = {
     port: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/todaycrop',//访问的路径
+    assetsPublicPath: '/',//访问的路径 todaycrop
     proxyTable: {//反向代理
         /*'/api': {
             target: 'http://api.xxxxxxxx.com',
