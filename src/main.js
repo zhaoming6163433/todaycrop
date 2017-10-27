@@ -8,9 +8,11 @@ import router from './router'
 import VueResource from 'vue-resource'
 import vueutil from './util/vueutil.js'
 import store from './store'
+import '../static/js/screenscale.js';
 
 import 'mint-ui/lib/style.css'
 import '../static/css/animate.min.css';
+import '../static/css/swiper.min.css';
 
 Vue.config.productionTip = false
 Vue.use(VueResource);

@@ -13,8 +13,8 @@
                 个人分类
             </div>
         </mt-tab-item>
-        <mt-tab-item id="shopcar">
-            <div class="outdiv" @click="gopage('shopcar')">
+        <mt-tab-item id="mytalk">
+            <div class="outdiv" @click="gopage('mytalk')">
                 <div class="barimg shoppingcart img3"></div>
                 问问
             </div>
@@ -77,7 +77,7 @@ export default {
 <style lang="scss">
 @import 'static/css/common_color.scss';
     .mint-tab-item{
-        padding:0;
+        padding:0!important;
     }
     .mint-tabbar > .mint-tab-item.is-selected{
         border-top:1px solid $bord_c;

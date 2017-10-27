@@ -53,7 +53,7 @@ export default {
                 this.$nextTick(() => {
                     let swiper = new Swiper('.swiper-container', {
                         pagination: '.swiper-pagination',
-                        slidesPerView: 5,
+                        slidesPerView: 4,
                         paginationClickable: false,
                         spaceBetween: 0
                     });

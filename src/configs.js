@@ -23,8 +23,8 @@ let plant = '';
 
 //切换环境
 if (process.env.NODE_ENV == 'development') {
-    urlWebHttp = 'http://192.168.1.104:8081';
-    ssrurl = 'http://10.6.20.34:5555';
+    urlWebHttp = 'http://10.6.20.104:8081';
+    ssrurl = 'http://10.6.20.104:5555';
 }else if (process.env.NODE_ENV == 'production') {
 	urlWebHttp = 'http://192.168.1.101:8081';
 }

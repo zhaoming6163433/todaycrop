@@ -10,6 +10,7 @@ import register from '@/view/register'//注册
 import updateseek from '@/view/updateseek'//修改类别
 import collecturl from '@/view/collecturl'//添加地址
 import createseek from '@/view/createseek'//添加类别
+import mytalk from '@/view/mytalk'//问问
 
 Vue.use(Router)
 
@@ -29,12 +30,12 @@ export default new Router({
           path: 'home/myseek',
           name: 'myseek',
           component: myseek
-        },/*
-        {//微聊
-          path: 'home/mytalk',
-          name: 'mytalk',
-          component: mytalk
-        },*/
+        },
+        {//问问
+            path: '/mytalk',
+            name: 'mytalk',
+            component: mytalk
+        },
         {//我的
           path: 'home/myInfo',
           name: 'myInfo',

@@ -6,7 +6,7 @@
       </div>
       <div>
         <mt-field label="" class="urltype" :id="'addurlinput'" :attr="{ maxlength: 1000 }" placeholder="请输入网址" type="url" v-model="website"></mt-field>
-        <div class="seltype" @click="sheetVisible=true">{{typeitem.name}}</div>
+        <div class="seltype" @click="showtype">{{typeitem.name}}</div>
       </div>
       <div><mt-button type="danger" class="savebtn" @click="saveUrl()">保存</mt-button></div>
       <mt-actionsheet class="actionstyle" :actions="typelist" v-model="sheetVisible" cancelText=""></mt-actionsheet>
@@ -60,6 +60,11 @@ export default {
                 }
                 this.typelist.push(obj);
             });
+            if(this.typelist.length == 0){
+                this.typeitem.name = '暂无分类';
+            }else{
+                this.typeitem.name = '选择分类';
+            }
         },
         //添加网址
         async get_add_website(params){
@@ -73,6 +78,12 @@ export default {
                 console.log(res);
             }catch (err) {
                 util.toastinfo(err.message||'保存失败');
+            }
+        },
+        //展示分类
+        showtype(){
+            if(this.typeitem.name != '暂无分类'){
+                this.sheetVisible=true;
             }
         },
         //返回
