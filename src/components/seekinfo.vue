@@ -221,7 +221,7 @@ export default {
         deleteInfo(item,e){
             e.stopPropagation();
             this.$messagebox.confirm('您确定要删除该条地址？','').then(() => {
-                let params = {url:item.url,_id:item._id,logoimg:item._urlinfo.logoimg}
+                let params = {url:item.url,_id:item._id,logoimg:item._urlinfo&&item._urlinfo.logoimg}
                 this.get_delWebUrlInfo(params);
             },() => {
 

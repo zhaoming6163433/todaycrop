@@ -1,3 +1,4 @@
+import appConfigs from 'src/configs'
 
 export default{
   install(Vue,options)
@@ -58,11 +59,11 @@ export default{
 	Vue.prototype.loaderrimg = function(e){
 		var type = e.currentTarget.attributes.type&&e.currentTarget.attributes.type.value;
 		if(type == 'big'){
-			e.target.src = '../../static/img/picturedefault.png';
+			e.target.src = appConfigs.assetsPublicPath+'/static/img/picturedefault.png';
 		}else if(type == 'logogray'){
-			e.target.src = '../../static/img/graylogo.png';
+			e.target.src = appConfigs.assetsPublicPath+'/static/img/graylogo.png';
 		}else {
-			e.target.src = '../../static/img/picturedefault.png';
+			e.target.src = appConfigs.assetsPublicPath+'/static/img/picturedefault.png';
 		}
 	}
 	//加载图片处理

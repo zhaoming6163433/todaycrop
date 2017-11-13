@@ -90,7 +90,7 @@ export default {
 @import 'static/css/common_color.scss';
 .seekpopup{
     .borderstyle{
-        border-bottom:1px solid $bord_c;
+
     }
     .classtypes{
         transform: translate3d(-50%, 0%, 0);
@@ -107,9 +107,12 @@ export default {
                 height: 3rem;
                 line-height: 3rem;
                 text-align: left;
-                width:100%;
+                width: 90%;
                 display: inline-block;
                 font-size: 1.6rem;
+                padding-left: 10%;
+                background-color: #efefef;
+                border-radius: 5px;
             }
         }
     }
