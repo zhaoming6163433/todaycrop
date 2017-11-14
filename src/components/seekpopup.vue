@@ -146,6 +146,9 @@ export default {
                 width:100%;
                 display: inline-block;
                 font-size: 1.6rem;
+                padding-left: 10%;
+                background-color: #efefef;
+                border-radius: 5px;
             }
         }
     }

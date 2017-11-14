@@ -12,7 +12,7 @@
                         <div class="title ellipisis2">{{ item | titlef }}</div>
                         <div class="logo"><img :src="item._urlinfo&&item._urlinfo.logoimg || defaultimg" @error="loaderrimg" @load="loadimg"/></div>
                         <div class="domain"><span>{{ item.domain }}</span><img :src="`http://statics.dnspod.cn/proxy_favicon/_/favicon?domain=${item.domain}`" @error="loaderrimg" @load="loadimg" type="logogray"/></div>
-                        <div class="createdate"><span>创建日期</span><span>{{ item.createTime | timedatehandle }}</span></div>
+                        <div class="createdate"><span>创建日期</span><span>{{ item.createTime | timedatehandle }}</span><span>类别：{{[item.type,myseek] | typenamef}}</span></div>
                         <div class="belongseek" @click="belongseek(item,$event)">归类</div>
                         <div class="setpublic" @click="setPublicInfo(item,$event)"><div v-if="item.setpublic" class="pubdiv">公开</div><div v-else class="pridiv">私有</div></div>
                         <div class="delete" @click="deleteInfo(item,$event)"><img src="../../static/img/delete.png"/></div>
@@ -67,6 +67,23 @@ export default {
             }else{
                 return val.url;
             }
+        },
+        typenamef([val,list]){
+            let name = '暂无';
+            try{
+                for(var i=0; i<list.typelist.length; i++){
+                    var item = list.typelist[i];
+                    if(val === ''){
+                        name = '暂无';
+                        break;
+                    }else if(item.type == val){
+                        name = item.seekname;
+                        break;
+                    }
+                }
+            }catch(e){}
+
+            return name;
         }
     },
     components: {
@@ -341,6 +358,7 @@ export default {
                 color:$grey_c;
                 >span:nth-child(2){
                     margin-left:1rem;
+                    margin-right:1rem;
                 }
             }
             .belongseek{
