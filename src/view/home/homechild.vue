@@ -101,7 +101,7 @@ export default {
 
                         this.lastlist.forEach((item1)=> {
                             res.result.forEach((item2,index)=> {
-                                if(item1._id == item2._id){
+                                if(item1._id == item2._id && item1.quantity==item2.quantity){
                                     samenum++;
                                 }
                             })
@@ -112,7 +112,7 @@ export default {
                         if(!showcomupdate){
                             this.lastlist.forEach((item1)=> {
                                 this.totallist.forEach((item2,index)=> {
-                                    if(item1 == item2){
+                                    if(item1._id == item2._id && item1.quantity==item2.quantity){
                                         this.totallist.splice(index,1);
                                     }
                                 })
@@ -125,6 +125,7 @@ export default {
                 }else{
                     this.totallist = this.totallist.concat(res.result);
                 }
+
                 this.seeklist = this.totallist;
                 this.lastlist = res.result;
                 if(res.result.length == 0){
