@@ -253,6 +253,7 @@ export default {
         //刷新页面
         util.vueEvent.$on("refreshseek", () => {
             util.initdata(this);
+            util.showloading();
             this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
         });
         //监听删除和设置分类后刷新dom
