@@ -112,7 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+ 
 .collecturl{
   height: 100%;
   left: 0;

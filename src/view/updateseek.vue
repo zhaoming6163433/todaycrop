@@ -160,7 +160,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import 'static/css/common_color.scss';
+
     .sortable-ghost {
         opacity: .2;
     }

@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+
 .seekpopup{
     .borderstyle{
 

@@ -45,7 +45,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
 .myseek{
     height:90%;
 }

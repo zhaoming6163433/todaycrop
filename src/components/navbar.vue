@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'static/css/common_color.scss';
+
     .mint-tab-item{
         padding:0!important;
     }
@@ -102,7 +102,7 @@ export default {
   }
 </style>
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+
   .navbar{
         .outdiv{
             padding:7px 0;

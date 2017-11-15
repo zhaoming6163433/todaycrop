@@ -100,7 +100,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-  @import 'static/css/common_color.scss';
+
     .topseek{
         border-bottom: 1px solid $bord_c;
         background-color:$wihte_c;

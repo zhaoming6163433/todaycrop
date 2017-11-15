@@ -25,7 +25,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+ 
   .loadingcmp{
     position:fixed;
     width:100%;

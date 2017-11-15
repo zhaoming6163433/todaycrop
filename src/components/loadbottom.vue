@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+
   .loadbottom{
     margin-bottom: 55px;
     position:relative;

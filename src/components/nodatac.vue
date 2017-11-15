@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import 'static/css/common_color.scss';
+   
   .nodatac{
         position: absolute;
         top: 35%;

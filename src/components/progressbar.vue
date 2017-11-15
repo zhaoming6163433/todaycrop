@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+ 
 .progressbar{
   position: fixed;
   top: 0;

@@ -281,6 +281,7 @@ export default {
         //监听编辑类别页面点击进入的
         util.vueEvent.$on("refreshupdate", () => {
             util.showloading();
+            this.totallist = [];
             this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
         });
         //刷新时就不跳转了只改变按钮样式
@@ -301,7 +302,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
     .seekinfo{
         height:100%;
         .loadmore{

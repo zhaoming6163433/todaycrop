@@ -150,7 +150,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+
   .myInfo{
     .mybaseInfo{
       text-align: left;

@@ -64,7 +64,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+ 
   .register{
       margin-top:5rem;
       .password{

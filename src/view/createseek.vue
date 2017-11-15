@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+
 .createseek{
     padding-top:2rem;
     height: 100%;

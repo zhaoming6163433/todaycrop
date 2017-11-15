@@ -159,7 +159,7 @@ export default {
 
 </script>
 <style lang="scss" scoped>
-@import 'static/css/common_color.scss';
+ 
 .mytalk{
     bottom: 55px;
     height: auto;
