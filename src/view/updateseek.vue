@@ -148,6 +148,7 @@
                 }else{
                     this.SAVE_MY_SEEK({'sel_type':item.type, '_id':item._id});
                     this.$router.go(-1);
+                    util.vueEvent.$emit("refreshupdate");
                 }
             }
         },

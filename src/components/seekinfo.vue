@@ -104,19 +104,11 @@ export default {
     },
     activated(){
         //每次都清空数据
-        util.initdata(this);
-        util.vueEvent.$emit("popupVisibleTypes",false);
+        // util.initdata(this);
+        // util.vueEvent.$emit("popupVisibleTypes",false);
         //每次都重新加载，也可以下拉刷新
-        util.showloading();
+        //util.showloading();
 
-        if(this.userinfo._id){
-            //查询当前用户分类列表
-                this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
-        }else{
-            this.get_user_islogin( (_id)=> {
-                    this.get_seekinfo({id:_id, pageNum:1, pageSize:this.maxlength});
-            });
-        }
     },
     methods : {
         ...mapMutations({
@@ -286,8 +278,23 @@ export default {
                 this.nodatacobj.text = '暂无数据';
             }
         });
+        //监听编辑类别页面点击进入的
+        util.vueEvent.$on("refreshupdate", () => {
+            util.showloading();
+            this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
+        });
         //刷新时就不跳转了只改变按钮样式
         util.vueEvent.$emit("homebar",'myseek');
+        if(this.userinfo._id){
+            //查询当前用户分类列表
+            util.showloading();
+            this.get_seekinfo({id:this.userinfo._id, pageNum:1, pageSize:this.maxlength});
+        }else{
+            this.get_user_islogin( (_id)=> {
+                util.showloading();
+                this.get_seekinfo({id:_id, pageNum:1, pageSize:this.maxlength});
+            });
+        }
     }
 }
 
