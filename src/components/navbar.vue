@@ -22,7 +22,7 @@
         <mt-tab-item id="myInfo">
             <div class="outdiv" @click="gopage('myInfo')">
                 <div class="barimg my img4"></div>
-                我的
+                我の
             </div>
         </mt-tab-item>
       </mt-tabbar>
