@@ -4,8 +4,8 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    index: path.resolve(__dirname, '../todaypocket/index.html'),
+    assetsRoot: path.resolve(__dirname, '../todaypocket'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/todaypocket/',
     productionSourceMap: false,//打印错误地址线上false

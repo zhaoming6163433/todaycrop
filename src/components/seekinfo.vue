@@ -103,12 +103,16 @@ export default {
         ])
     },
     activated(){
-        //每次都清空数据
-        // util.initdata(this);
-        // util.vueEvent.$emit("popupVisibleTypes",false);
-        //每次都重新加载，也可以下拉刷新
-        //util.showloading();
-
+        //如果展示的是请登录后查看就再请求一次
+            this.get_user_islogin( (_id)=> {
+                if(this.nodatacobj.text == '请登录后查看'){
+                    util.initdata(this);
+                    util.vueEvent.$emit("popupVisibleTypes",false);
+                    //每次都重新加载，也可以下拉刷新
+                    util.showloading();
+                    this.get_seekinfo({id:_id, pageNum:1, pageSize:this.maxlength});
+                }
+            });
     },
     methods : {
         ...mapMutations({
