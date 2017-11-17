@@ -51,6 +51,7 @@ export default {
   methods : {
       //跳转页面
       gopage(val){
+            util.vuesount.play()
             switch (val) {
                 case 'myseek':
                     this.$router.push({'name':'myseek'});

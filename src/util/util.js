@@ -6,10 +6,19 @@ let getevent=()=>{
 	var Event = new Vue();
 	return Event;
 }
+let clicksound = ()=>{
+    var click = new Howl({
+        urls: ['../static/audio/click.ogg', '../static/audio/click.m4a'],
+        volume: 1
+    });
+    return click;
+}
 const vueEvent = getevent();
+const vuesount = clicksound();
 
 const utils = {
     vueEvent:vueEvent,
+    vuesount:vuesount,
     async up_quantity(id){
         let res = await api_up_quantity({'_id':id});
     },
