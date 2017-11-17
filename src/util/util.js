@@ -8,7 +8,7 @@ let getevent=()=>{
 }
 let clicksound = ()=>{
     var click = new Howl({
-        urls: ['../static/audio/click.ogg', '../static/audio/click.m4a'],
+        urls: [appConfigs.assetsPublicPath+'/static/audio/click.ogg', appConfigs.assetsPublicPath+'/static/audio/click.m4a'],
         volume: 1
     });
     return click;
