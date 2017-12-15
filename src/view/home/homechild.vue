@@ -91,7 +91,7 @@ export default {
                 if(callback){
                     //处理下拉推荐
                     let _list = [];
-                    _list = _list.concat(res.result);
+                    _list = _list.concat(res.result.reverse());
 
                     if(moreupdown){
                         //当前页面有新推荐就刷新，没有就展示recomtip
