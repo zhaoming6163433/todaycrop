@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "better-scroll": "^0.4.0",
+    "element-ui": "^1.4.4",
     "mint-ui": "^2.2.7",
     "n-zepto": "^1.2.0",
     "prerender-spa-plugin": "^2.1.0",

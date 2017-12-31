@@ -28,7 +28,10 @@ export default {
             'article':'地址详情',
             'updateseek':'编辑类别',
             'createseek':'新增类别',
-            'collecturl':'新增网址'
+            'collecturl':'新增网址',
+            'nuxtlogin':'登录',
+            'nuxtregister':'注册',
+            'nuxtlogout':'退出登录'
           },
           //页面左右滑动优先级
           levelist: {

@@ -11,6 +11,8 @@ import updateseek from '@/view/updateseek'//修改类别
 import collecturl from '@/view/collecturl'//添加地址
 import createseek from '@/view/createseek'//添加类别
 import mytalk from '@/view/mytalk'//问问
+import nuxtlogin from '@/view/nuxtlogin/login'//nuxt登录
+import nuxtregister from '@/view/nuxtlogin/register'//注册
 
 Vue.use(Router)
 
@@ -75,6 +77,16 @@ export default new Router({
         path: '/createseek',
         name: 'createseek',
         component: createseek
-    }
+    },
+    {//nuxt登录
+        path: '/nuxtlogin',
+        name: 'nuxtlogin',
+        component: nuxtlogin
+    },
+    {//nuxt注册
+        path: '/nuxtregister',
+        name: 'nuxtregister',
+        component: nuxtregister
+    },
   ]
 })
