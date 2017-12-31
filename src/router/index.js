@@ -12,7 +12,8 @@ import collecturl from '@/view/collecturl'//添加地址
 import createseek from '@/view/createseek'//添加类别
 import mytalk from '@/view/mytalk'//问问
 import nuxtlogin from '@/view/nuxtlogin/login'//nuxt登录
-import nuxtregister from '@/view/nuxtlogin/register'//注册
+import nuxtregister from '@/view/nuxtlogin/register'//nuxt注册
+import nuxtlogout from '@/view/nuxtlogin/logout'//nuxt退出
 
 Vue.use(Router)
 
@@ -88,5 +89,10 @@ export default new Router({
         name: 'nuxtregister',
         component: nuxtregister
     },
+    {//nuxt退出
+        path: '/nuxtlogout',
+        name: 'nuxtlogout',
+        component: nuxtlogout
+    }
   ]
 })
