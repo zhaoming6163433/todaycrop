@@ -115,13 +115,3 @@ export const api_up_quantity = (params) => vueRequest(appConfigs.urlWebHttp + '/
  */
 
 export const api_up_url_seek = (params) => vueRequest(appConfigs.urlWebHttp + '/api/article/up_url_seek?', params, 'POST');
-
-/**
- * nuxt登录
- */
-export const api_post_login = (params) => vueRequest(appConfigs.urlWebHttp + '/api/login/user_login?', params,'POST');
-
-/**
- * nuxt注册
- */
-export const api_post_register = (params) => vueRequest(appConfigs.urlWebHttp + '/api/login/user_register?', params,'POST');

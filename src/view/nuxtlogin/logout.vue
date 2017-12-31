@@ -5,7 +5,9 @@
 </template>
 
 <script>
-import { api_post_loginout } from 'src/model/api.js'
+    import {
+        api_user_logout
+    } from 'src/model/api.js'
 
     export default {
         name: 'nuxtlogout',
@@ -18,19 +20,22 @@ import { api_post_loginout } from 'src/model/api.js'
 
         },
         methods: {
-            async loginout_post(params) {
+            async loginout_post() {
                 let res = '';
                 try {
-                    res = await api_post_loginout(params);
+                    res = await api_user_logout();
                     this.$router.go(-1);
                 } catch (e) {
-                    this.$message.error({message:e.message,showClose: true});
+                    this.$message.error({
+                        message: e.message,
+                        showClose: true
+                    });
                 }
             }
         },
 
         mounted() {
-
+            this.loginout_post();
         }
     }
 </script>
@@ -38,6 +43,10 @@ import { api_post_loginout } from 'src/model/api.js'
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
     .nuxtlogout {
-
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        margin-left: -40px;
+        font-size: 20px;
     }
 </style>

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { api_post_login } from 'src/model/api.js'
+import { api_user_login } from 'src/model/api.js'
 
     export default {
         name: 'nuxtlogin',
@@ -30,7 +30,7 @@ import { api_post_login } from 'src/model/api.js'
 
                 let res = '';
                 try {
-                    res = await api_post_login(params);
+                    res = await api_user_login(params);
                     this.$router.go(-1);
                 } catch (e) {
                     this.$message.error({message:e.message,showClose: true});

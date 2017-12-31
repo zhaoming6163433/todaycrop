@@ -14,7 +14,7 @@
 
 <script>
     import {
-        api_post_register
+        api_user_register
     } from 'src/model/api.js'
 
     export default {
@@ -34,7 +34,7 @@
 
                 let res = '';
                 try {
-                    res = await api_post_register(params);
+                    res = await api_user_register(params);
                     this.$router.go(-1);
                 } catch (e) {
                     this.$message.error(e);
