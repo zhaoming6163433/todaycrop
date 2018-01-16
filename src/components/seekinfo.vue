@@ -63,7 +63,7 @@ export default {
     filters:{
         titlef(val){
             if(val._urlinfo){
-                return val._urlinfo.readability ? val._urlinfo.articleres.title : val._urlinfo.url;
+                return val._urlinfo.readability ? val._urlinfo.title : val._urlinfo.url;
             }else{
                 return val.url;
             }
