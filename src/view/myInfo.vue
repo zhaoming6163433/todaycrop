@@ -18,6 +18,12 @@
         </div>
       </section>
       <section>
+        <div class="infosel" @click="gomyblog()">
+          <div>我的博客</div>
+          <div class="gotoback"><img src="../../static/img/grayback2.png"/></div>
+        </div>
+      </section>
+      <section>
         <div>
           <mt-button :type="buttontype" class="savebtn" @click="loginout()">{{logintext}}</mt-button></div>
       </section>
@@ -109,6 +115,10 @@ export default {
             }else{
                 util.toastinfo('请先登录');
             }
+        },
+        //今日我的博客
+        gomyblog(){
+            window.location.href = appConfigs.ssrurl+'/blog';
         },
         //登录或退出
         loginout(){
