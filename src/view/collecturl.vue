@@ -5,6 +5,7 @@
         <a class="closebtn" @click="closepage"></a>
       </div>
       <div>
+      <mt-field label="" class="urltype" :id="'addurlinput0'" :attr="{ maxlength: 10 }" placeholder="请输入标题" type="text" v-model="title"></mt-field>
         <mt-field label="" class="urltype" :id="'addurlinput'" :attr="{ maxlength: 1000 }" placeholder="请输入网址" type="url" v-model="website"></mt-field>
         <div class="seltype" @click="showtype">{{typeitem.name}}</div>
       </div>
@@ -25,6 +26,7 @@ export default {
     data () {
         return {
             sheetVisible:false,
+            title:'',
             website:'',
             typeitem:{
                 name:'选择分类',
@@ -92,7 +94,7 @@ export default {
         },
         //保存
         saveUrl(){
-            let params = {'url':this.website,'type':this.typeitem.type,'typeid':this.typeitem.typeid};
+            let params = {'url':this.website,'title':this.title,'type':this.typeitem.type,'typeid':this.typeitem.typeid};
             this.get_add_website(params);
         },
         //选择type
