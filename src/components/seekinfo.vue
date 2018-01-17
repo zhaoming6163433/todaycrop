@@ -220,8 +220,8 @@ export default {
                 this.$router.push({name:'article',query:{'url':url}});
             }else{
                 url = item.url;
-                window.location.href = url;
-                //window.open(url,'_blank');
+                //window.location.href = url;
+                window.open(url,'_blank');
             }
         },
         //归纳分类
