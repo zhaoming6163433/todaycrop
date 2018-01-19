@@ -23,13 +23,13 @@ let plant = '';
 
 //切换环境
 if (process.env.NODE_ENV == 'development') {
-    urlWebHttp = 'http://47.52.227.158';//http://10.6.20.104:8081
-    ssrurl = 'http://47.52.227.158:5555';//http://10.6.20.104:5555
+    urlWebHttp = 'http://www.todaypocket.cn';//http://10.6.20.104:8081
+    ssrurl = 'http://www.todaypocket.cn:5555';//http://47.52.227.158:5555
 }else if (process.env.NODE_ENV == 'production') {
     //今日口袋提供的接口对外
-    urlWebHttp = 'http://47.52.227.158';
+    urlWebHttp = 'http://www.todaypocket.cn';
     //nuxt提供的接口
-    ssrurl = 'http://47.52.227.158:5555';
+    ssrurl = 'http://www.todaypocket.cn:5555';
 }
 //配置相对路径
 if(location.href.indexOf(filename)!=-1){
