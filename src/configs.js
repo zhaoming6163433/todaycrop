@@ -19,7 +19,8 @@ let ssrurl = '';
 let assetsPublicPath = '';
 //运行环境
 let plant = '';
-
+//PC还是移动端
+let isPC = '';
 
 //切换环境
 if (process.env.NODE_ENV == 'development') {
@@ -59,7 +60,7 @@ function IsPC() {
     return flag;
 }
  
-var isPC = IsPC();
+isPC = IsPC();
 
 export default{
 	urlWebHttp,

@@ -118,6 +118,7 @@ export default {
         },
         //今日我的博客
         gomyblog(){
+          alert(appConfigs.isPC)
             if(appConfigs.isPC){
               window.location.href = appConfigs.ssrurl+'/blog';
             }else{
