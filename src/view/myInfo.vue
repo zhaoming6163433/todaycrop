@@ -118,7 +118,11 @@ export default {
         },
         //今日我的博客
         gomyblog(){
-            window.location.href = appConfigs.ssrurl+'/blog';
+            if(appConfigs.isPC){
+              window.location.href = appConfigs.ssrurl+'/blog';
+            }else{
+              window.location.href = appConfigs.urlWebHttp+'/canvas/touch1.html';
+            }
         },
         //登录或退出
         loginout(){
