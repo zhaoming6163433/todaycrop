@@ -71,7 +71,7 @@ export default {
                     return val.url;
                 }
             }
-            
+
         },
         typenamef([val,list]){
             let name = '暂无';
