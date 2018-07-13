@@ -21,7 +21,7 @@ export default new Router({
   mode:'history',
   routes: [
     {//首页
-      path: '/',
+      path: '/todaypocket',
       name: 'home',
       component: home,
       children: [
