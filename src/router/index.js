@@ -18,10 +18,10 @@ import nuxtlogout from '@/view/nuxtlogin/logout'//nuxt退出
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+//   mode:'history',
   routes: [
     {//首页
-      path: '/todaypocket',
+      path: '/',
       name: 'home',
       component: home,
       children: [
