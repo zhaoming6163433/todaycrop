@@ -25,7 +25,7 @@ let isPC = '';
 //切换环境
 if (process.env.NODE_ENV == 'development') {
     urlWebHttp = 'http://www.todaypocket.cn';//http://10.6.20.104:8081
-    ssrurl = 'http://www.todaypocket.cn:5555';//http://47.52.227.158:5555
+    ssrurl = 'http://www.todaypocket.cn:5555';//http://47.244.113.141:5555
 }else if (process.env.NODE_ENV == 'production') {
     //今日口袋提供的接口对外
     urlWebHttp = 'http://www.todaypocket.cn';
@@ -59,7 +59,7 @@ function IsPC() {
     }
     return flag;
 }
- 
+
 isPC = IsPC();
 
 export default{
