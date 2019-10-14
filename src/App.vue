@@ -64,6 +64,33 @@ export default {
         this.showLoading = false;
     });
     this.firstitle();
+    setTimeout(() => {
+        window.L2Dwidget.init({
+            dialog: {
+                // 开启对话框
+                enable: true,
+                script: {
+                    // 每空闲 10 秒钟，显示一条一言
+                    'every idle 10s': '$hitokoto$',
+                    // 当触摸到星星图案
+                    'hover .star': '星星在天上而你在我心里 (*/ω＼*)',
+                    // 当触摸到角色身体
+                    'tap body': '哎呀！别碰我！',
+                    // 当触摸到角色头部
+                    'tap face': '人家已经不是小孩子了！'
+                }
+            },
+            pluginRootPath: 'static/live2dw/',
+            pluginJsPath: 'lib/',
+            pluginModelPath: 'live2d-widget-model-shizuku/assets/',
+            tagMode: false,
+            debug: false,
+            model: { jsonPath: '/static/live2dw/live2d-widget-model-shizuku/assets/shizuku.model.json' },
+            display: { position: 'left', width: 150, height: 300 },
+            mobile: { show: true },
+            log: false
+        })
+    }, 1000)
   },
   methods : {
     hometab(to) {
@@ -204,5 +231,8 @@ body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legen
 .animated {
     animation-duration: .5s;
     animation-fill-mode: both;
+}
+.live2d-widget-container{
+    bottom: 30px!important;
 }
 </style>
